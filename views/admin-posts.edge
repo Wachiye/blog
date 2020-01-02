@@ -1,0 +1,56 @@
+@layout("admin-layout")
+@section("content")
+<div class="main-posts bg-light col-sm-12 float-left">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="message float-left">
+        <div class="alert"></div>
+      </div>
+      <div class="btn-group p-1 float-right">
+        <select class="form-control form-control-sm mr-1" name="action">
+          <option selected disabled>Action</option>
+          <option value="delete" >Delete Selected</option>
+          <option value="public">Make Public</option>
+          <option value="private"">Make Private</option>
+        </select>
+        <a class="btn btn-primary mr-1 btn-sm" id="action" href="/posts/mass/action">Apply</a>
+      </div>
+    </div>
+    <div style="clear:both;"></div>
+    <div class="panel-body">
+      <table class="table">
+        <thead class="bg-secondary text-center">
+          <th scope="col"><input id="check-btn" type="checkbox" onchange="selectAll()" ></th>
+          <th scope="col">Post</th>
+          <th scope="col">Views</th>
+          <th scope="col">Comments</th>
+          <th colspan="2" scope="col">Action</th>
+        </thead>
+        @each(post in all)
+        <tr>
+          <td><input type="checkbox" name="check" value="{{post.id}}"></td>
+          <td>{{post.title}}</td>
+          <td>{{post.views}}</td>
+          <td>{{post.comments}}</td>
+          <td><a class="btn btn-secondary text-light btn-sm" href="/view={{post.id}}">View</a></td>
+          <td> <a class="btn btn-warning btn-sm text-light" href="/edit=id{{post.id}}">Edit</a></td>
+        </tr>
+        @endeach
+      </table>
+    </div>
+    <div class="container">
+      <nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="#">Previous</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+@endsection

@@ -1,0 +1,22 @@
+@layout("admin-layout")
+
+@section("content")
+<form id="privilege-form" style="visibility: hidden;">
+	<div class="form-group">
+		<label for="username">Username</label>
+		<input id="name" class="form-control" type="text" value="{{user.username}}" name="username">
+	</div>
+	<div class="form-group">
+		<label for="role">Current Role</label>
+		<input id="role" class="form-control" type="text" value="{{user.category}}" name="role" disabled>
+	</div>
+	<div class="form-group">
+		<label for="new_role">New Role</label>
+		<select class="form-control form-control-sm">
+			<option value="subscriber">Subcriber</option>
+			<option value="administrator">Editor/Administrator</option>
+		</select>
+	</div>
+	<button  class="btn btn-success btn-block" type="submit">Save Changes</button>
+</form>
+@endsection

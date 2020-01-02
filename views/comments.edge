@@ -1,0 +1,31 @@
+@layout("admin-layout")
+@section("content")
+<div class="comments">
+	@each(comment in comments)
+	<div class="comment">
+		<div class="media bg-light p-1">
+			<img class="rounded-circle mr-2" src="img/header.jpg" width="50px" height="50px">
+			<div class="media-body">
+				<span class="w-100">By {{comment.username}}</span><br>
+				<a class="text-primary" href="/view={{comment.post_id}}">Post : {{comment.post}}</a>
+				<br>
+				<span class="small">
+					{{comment.comment}}
+				</span>
+				<span class="float-right">
+					<span class="text-secondary">
+			          	<em>Posted on {{comment.date}}</em>
+			         </span>
+					<a class="text-success" href="/comments/{{comment.id}}/approve">
+						<i class="fa fa-check"></i>Approve
+					</a>
+					<a class="text-danger" href="/comments/{{comment.id}}/trash">
+						<i class="fa fa-trash"></i>&times;
+					</a>
+				</span>
+			</div>
+		</div>
+	</div>
+	@endeach
+</div>
+@endsection

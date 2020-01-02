@@ -1,0 +1,36 @@
+
+## Desscription 
+	Simple blog site
+
+## DevTools
+
+	Node Js
+	Express
+	Edge templating engine
+	HTM, CSS, JavaScript
+	Bootstrap 4
+
+## Author
+
+	Name: Wachiye Jeremiah Siranjofu alias Sirah
+	email: siranjofuw@gmail.com
+## Contributors
+
+	There are currently no contributors to this project but if you are interested, kindly sent me an email to 'siranjofuw@gmail.com'
+
+
+## Installation
+
+	## Assumptions
+
+	1. Your MySQL server is up and running locally on your machine
+
+	## 
+
+	1. Clone this project using git: git clone https://github.com/Wachiye/blog.git
+	2. CD into blog/site
+	3. Run "nmp install" to install revelevant packages
+	4. Open controllers/db.js file and edit the "config" data object to your SQL login details
+	5. On your sql command prompt, run "source 'path_to_blog/site/controllers/blog.sql" to create your database
+	6. Open your browser and visit "http:/localhost:3000/"
+	7. Hurah!! Your blog is up and running.

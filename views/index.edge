@@ -1,0 +1,41 @@
+@layout("layout")
+
+@section("content")
+@if(all.length == 0)
+    <p>No posts yet</p>
+@else
+<div class="container mainView p-3">
+<p class="text-center text-info">Most recent posts from ExpD</p>
+    @each(post in all)
+    <div class="post-preview">
+    <a href="view={{post.id}}" >
+        <h2 class="post-title">
+        <img src="img/posts/{{post.image}}" alt="" class="img-thumbnail" width="100px">{{post.title}}
+        </h2>
+        <h3 class="post-subtitle text-justify">
+        {{post.excerpt}}
+        </h3>
+    </a>
+    <p class="post-meta">Posted by
+        <a href="#">{{post.author}}</a>
+        on {{post.dateCreated}}</p>
+    </div>
+    <hr>
+    @endeach
+@endif
+</div>
+<div class="minorView">
+    <div class="quotes">
+        <p>Favourite Quote</p>
+        <blockquote>We were made to help each other. If you have something to teach us,do it. If not, listen to what we are teaching.</blockquote>
+    </div>
+</div>
+@endsection
+
+
+@section("pager")
+<!-- Pager -->
+<div class="clearfix">
+    <a class="btn btn-primary float-right btn-sm" href="/posts">All Posts&rarr;</a>
+</div>
+@endsection

@@ -1,0 +1,69 @@
+@layout("admin-layout")
+
+@section("content")
+<div class="users col-sm-12">
+	<div class="panel">
+		<div class="panel-heading">
+			@if( errors)
+			<p class="text-danger">{{errors}}</p>
+			@endif
+			@if( message)
+			<p class="text-danger">{{message}}</p>
+			@endif
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped bg-light table-bordered col-md-12 float-left">
+				<thead>
+					<th scope="col" >
+						<input id="check-btn" type="checkbox" name="check" onchange="selectAll()" ></th>
+					<th scope="col">Image</th>
+					<th scope="col">Username</th>
+					<th scope="col">Full Name</th>
+					<th scope="col">Email</th>
+					<th scope="col">Role</th>
+					<th>Delete</th>
+				</thead>
+				<tbody>
+				@each(user in users)
+					<tr>
+						<td><input class="mr-1" type="checkbox" name="check" value="{{user.id}}"></td>
+						<td><img class="rounded-circle mr-1" src="img/users/{{user.image}}" width="50px" height="50px" ></td>
+						<td>{{user.username}}</td>
+						<td>{{user.fullname}}</td>
+						<td>{{user.email}}</td>
+						<td>{{user.category}} <button onclick="showForm({{user.id}},'{{user.username}}','{{user.category}}')">Change</button></td>
+						<td class="text-center"><a class="btn btn-danger btn-sm" href="/users/{{user.id}}/del">X</a></td>
+					</tr>
+				@endeach
+				</tbody>
+			</table>
+			<form id="priviledge-form"  class=" col-md-4 float-left" action="" method="post">
+				<div class="form-group">
+					@if( errors)
+					<p class="text-danger">{{errors}}</p>
+					@endif
+					@if( message)
+					<p class="text-danger">{{message}}</p>
+					@endif
+				</div>
+				<div class="form-group">
+					<label for="username">Username</label>
+					<input id="name" class="form-control" type="text"  name="username">
+				</div>
+				<div class="form-group">
+					<label for="role">Current Role</label>
+					<input id="role" class="form-control" type="text" name="role" disabled>
+				</div>
+				<div class="form-group">
+					<label for="new_role">New Role</label>
+					<select class="form-control form-control-sm" name="new_role">
+						<option value="Subscriber">Subscriber</option>
+						<option value="Administrator">Editor/Administrator</option>
+					</select>
+				</div>
+				<button  class="btn btn-success btn-block" type="submit">Save Changes</button>
+			</form>
+		</div>
+	</div>
+</div>
+@endsection

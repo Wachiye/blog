@@ -1,0 +1,41 @@
+@layout("admin-layout")
+
+@section("content")
+<form id="form-newpost" class="form" action="/new-post" method="post"  encType="multipart/form-data">
+    <h3 class="text-center">Create New Post</h3>
+    <div class="row">
+        <div class="post-section col-md-8">
+            <span class="text-center">Post Content</span><br>
+            <div class="form-group">
+                <input class="form-control form-control-sm text-center" 
+                    type="text" name="title" id="title" placeholder="Post Title" data-max-words="10" >
+                <span id="titleDesc" class="small text-info"><em>Title should not be more then 10 words</em></span>
+            </div>
+            <div class="form-group" id="post-content">
+                <textarea class="form-control p-2 mt-1" cols="100%" rows="25%"
+                 name="content" id="editor" spellcheck ></textarea>
+            </div>
+        </div>
+        <div class="post-settings col-md-4">
+            <span>
+                <button class="btn btn-secondary btn-sm">Preview</button>
+                <button class="btn btn-primary btn-sm" type="submit">Publish</button>
+            </span> <br>
+            <span class="text-center">Post Settings</span><br>
+            <div class="form-group">
+                <span>Excerpt <br><em class="text-info">Excerpt should be less than 500 characters</em></span>
+                <textarea class="form-control form-control-sm" name="excerpt" 
+                    id="excerpt" rows="8" placeholder="Excerpt" maxlength="500" >
+                </textarea>
+            </div>
+            <div class="form-group">
+                <span>Featured Image</span><br>
+                <img id ="imgPreview" src="" width="100%" height="90%" alt="">
+                <input class="my-1" type="file" name="image" id="image" 
+                    onchange="document.getElementById('imgPreview').src = window.URL.createObjectURL(this.files[0])"> </input>
+            </div>
+        </div>
+    </div>
+</form>
+
+@endsection

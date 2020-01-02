@@ -1,0 +1,24 @@
+@layout("admin-layout")
+
+@section("content")
+<form class="form-inline mb-2" method="post" action="/categories/add">
+	<input class="form-control form-control-sm mr-2" type="text" placeholder="Category eg Motivation" name="name" required>
+	<button class="btn  btn-primary btn-sm">Add</button>
+</form>
+<div class="categories col-md-4">
+	<table class=" table table-bordered table-sm">
+		<thead>
+			<th>Category</th>
+			<th>Remove</th>
+		</thead>
+		<tbody>
+			@each(category in categories)
+			<tr>
+				<td>{{category.name}}</td>
+				<td><a class="btn btn-danger btn-sm" href="/categories/{{category.id}}/del">X</a></td>
+			</tr>
+			@endeach
+		</tbody>
+	</table>
+</div>
+@endsection

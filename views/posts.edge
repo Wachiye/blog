@@ -1,0 +1,83 @@
+@layout("layout")
+@section("content")
+<div class="mainView bg-light">
+  <div class="article-dual-column">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <div class="intro">
+            <h1 class="text-center">{{view.title}}</h1>
+            <p class="text-center">
+              <span class="by">by</span>
+              <a href="#">{{view.author}}</a>
+              <span class="date">{{view.dateCreated}}</span>
+            </p>
+            <img class="img-fluid" src="img/posts/{{view.image}}" alt="" width="100%" height="20%"> 
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10 offset-lg-0">
+            <div class="text">
+              @each(p in view.content)
+                  <p>{{p}}</p>
+              @endeach
+            </div>
+            <div class="post-comment">
+              <form id="comment" class="form" role="form" action="/posts={{view.id}}/comment" method="post">
+                <span class="w-100 text-center">
+                  <h5>Let's hear from you.</h5>
+                </span>
+                @if(info.loggedIn == "false")
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input class="form-control form-control-sm" type="text" name="username">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input class="form-control form-control-sm" type="email" name="email">
+                </div>
+                <div class="form-group">
+                  <label for="website">Website</label>
+                  <input class="form-control form-control-sm" type="link" name="website">
+                </div>
+                @else
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input class="form-control form-control-sm" type="text" name="username" value="{{info.user.username}}">
+                </div>
+                @endif
+                <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea class="form-control form-control-sm" name="message" rows="5" placeholder="Your Message"></textarea>
+                </div>
+                <div class="form-group text-center">
+                  <button class="btn btn-primary btn-sm" type="submit">Comment</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="minorView p-2">
+  @each(posts in all)
+  <div class="media">
+    <img src="img/posts/{{posts.image}}" alt="" class="mr-1" width="70px">
+    <div class="media-body">
+      <a href="/view={{posts.id}}">
+        <h5 class="m-0">{{posts.title}}</h5>
+        <p class="post-subtitle text-justify small"> {{posts.excerpt}}</p>
+      </a>
+      <p class="post-meta small">Posted by
+          <a href="#">{{posts.author}}</a>
+          on {{posts.dateCreated}}
+      </p>
+    </div>
+  </div>
+  <hr>
+  @endeach
+</div>
+
+@endsection

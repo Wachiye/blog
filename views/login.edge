@@ -1,0 +1,31 @@
+@layout("layout")
+
+@section("content")
+<div id="login-form " class=" p-2 m-auto col-md-4" >
+    <form class="form m-2 p-0" action="/login" method="post" name="loginform">
+        <div class="form-group my-2 text-center">
+            <h2>
+                <img  class="rounded-circle" src="img/header.jpg" alt="" height="70px" width="70px"> <br>
+                <span class="text-info "><strong>Login</strong></span>
+            </h2>
+            @if(errors)
+                <span class="text-danger text-italic small">{{errors}}</span>
+            @endif
+            @if(message)
+                <span class="text-success text-italic small">{{message}}</span>
+            @endif
+        </div>
+        <div class="form-group mb-2">
+            <input class="form-control form-control-sm" type="text" 
+            name="username" id="username" placeholder="Username" required>
+        </div>
+        <div class="form-group mb-2">
+            <input class="form-control form-control-sm" type="password" 
+            name="password" id="password" placeholder="Password" required>
+        </div>
+        <button class="btn btn-primary btn-block btn-sm mb-2" type="submit">
+        	<span class="spinner-grow spinner-grow-sm"></span>Sign In</button>
+        <a  class="btn-link btn-block " href="#">Forgot Password?</a>
+    </form>
+</div>
+@endsection
