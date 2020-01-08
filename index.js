@@ -1,8 +1,8 @@
-const express = require("express")
+const exp= require("express")
 const path = require("path")
 const conn = require("./controllers/db")
 const uploader = require("express-fileupload")
-const app = new express()
+const app = new exp()
 const router = require('./routes/main.routes')
 const comments = require('./controllers/comments')
 const { config, engine} = require("express-edge")
@@ -10,7 +10,7 @@ const { config, engine} = require("express-edge")
 config({ cache: process.env.NODE_ENV === 'production'})
 
 //path to static file
-app.use(express.static(path.join(__dirname,"/public/")))
+app.use(exp.static(path.join(__dirname,"/public/")))
 
 //middleware
 app.use(router)
