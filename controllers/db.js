@@ -3,7 +3,7 @@ const mysql = require("mysql")
 
 //connection string
 let config = {
-    host: "https://www.db4free.net:3306/",
+    host: "db4free.net",
     user: "expdblog",
     password: "expdblog",
     database: "expdblog"
