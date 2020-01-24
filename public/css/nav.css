@@ -5,11 +5,11 @@
 	box-sizing: border-box;
 }
 body{
-	background-color: aqua;
+	background-color: #f2f2f2;
 }
 div.main-div{
 	min-width: 1024px;
-	height: 900px;
+	height: auto;
 }
 /*nav*/
 nav{
@@ -19,7 +19,7 @@ nav{
 	justify-content: space-around;
 	align-items: left;
 	height: 100%;
-	background-color: #d3d3d3;
+	background-color: #ddd;
 	padding: 8px;
 }
 main{
