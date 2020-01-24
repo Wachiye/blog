@@ -10,7 +10,7 @@ const { config, engine} = require("express-edge")
 config({ cache: process.env.NODE_ENV === 'production'})
 
 //path to static file
-app.use(exp.static(path.join(__dirname,"/public/")))
+app.use(express.static(path.join(__dirname,"/public/")))
 
 //middleware
 app.use(router)
