@@ -9,12 +9,12 @@ body{
 }
 div.main-div{
 	min-width: 1024px;
-	height: 100%;
+	height: 100vh;
         overflow-y: auto;
 }
 /*nav*/
 nav{
-	width: 15%;
+	width: 25%;
 	float: left;
 	display: flex;
 	justify-content: space-between;
@@ -24,7 +24,7 @@ nav{
 	padding: 8px;
 }
 main{
-	width: 85%;
+	width: 75%;
 	height: 100%;
 	padding: 8px;
 	float: left;
