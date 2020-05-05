@@ -26,6 +26,7 @@ var site_author = {
     email:"siranjofuw@gmail.com"
 }
 
+app.set('trust proxy',1)
 app.set("views", __dirname+"/views")
 //basic site info
 var site = {
