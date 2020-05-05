@@ -1,0 +1,228 @@
+/*all elemets*/
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+/*body*/
+body{
+	background-color: #f4f4f4;
+}
+/*general*/
+input,textarea{
+	height: 26px;
+	background-color: white;
+	border-radius: 5px;
+	border-style: none;
+	padding: 3px;
+}
+p{
+	padding: 3px;
+}
+a{
+	text-decoration: none;
+}
+button{
+	height: 26px;
+	min-width: 70px;
+	border-style: none;
+	background-color: #3b5998;
+	border-radius: 5px;
+	color: #fff;
+}
+/*container*/
+.container{
+	height: 100vh;
+	width: 100%;
+	overflow-y: scroll;
+}
+.container .navigation, .container .main-panel{
+	height: 100%;
+}
+/*side navigation*/
+.navigation{
+	top: 0;
+	left: -15%;
+	background-color: #000;
+	position: absolute;
+	overflow: auto;
+	z-index: 1;
+	transition: 0.5s ;
+	opacity: 0.9;
+}
+.burger{
+	width: 30px;
+	height: 30px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	cursor: pointer;
+	visibility: hidden;
+}
+.burger div{
+	height: 2px;
+	width: 100%;
+	background-color: #000;
+	width: 30px;
+}
+.navigation ul{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 8px;
+	color: white;
+	font-size: 22px;
+}
+.navigation ul li{
+	width: 100%;
+	margin-bottom: 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.navigation .burger {
+	position: relative;
+	float: right;
+	right: 10px;
+	color: #000;
+	font-size: 24px; 
+	font-weight: bolder;
+}
+.navigation ul li span {
+	color: grey;
+	height: 26px;
+}
+.navigation ul li a{
+	height: 30px;
+	color: #d3d3d3;
+}
+.navigation ul li a:hover{
+	background-color: #ccc;
+	padding-left: 8px;
+	color: #000;
+}
+.nav-active{
+	left: 0;
+}
+/*main panel*/
+.main-panel{
+	width: 100%;
+	/*left: 15%;*/
+}
+/*header and footer*/
+.header, .footer{
+	width: 100%;
+	height: 8%;
+	background-color: #3b9998;
+	padding: 3px 5px 0px 5px;
+	clear: both;
+}
+/*main content area*/
+.main-content{
+	width: 100%;
+	height: 84%;
+	clear: both;
+}
+.header .burger, .footer .copyright{
+	float: left;
+}
+.header .search, .footer .developer{
+	float: right;
+}
+.navigation div.profile-pic{
+	text-align: center;
+	padding-top: 10px; 
+	background-color: #ccc;
+	border-radius: 0px 0px 0px 100%;
+}
+.profile-pic img{
+	border-radius: 100%;
+}
+.updates, .stats{
+	height: 100%;
+	padding: 3px;
+}
+.updates{
+	background-color: #ccc;
+}
+.stats{
+	left: 0;
+}
+.updates .card{
+	width: 100%;
+	height: auto;
+	float: left;
+	background-color: white;
+	margin: 0px 2px 2px 0px;
+	padding:3px;
+	border-radius: 5px;
+}
+.updates .card .card-heading{
+	width: 100%;
+	height: auto;
+	padding: 5px;
+	border-bottom: 1px solid gray;
+	color: green;
+}
+.updates .card .card-body{
+	height: auto;
+	width:100%;
+}
+.updates .card .card-body p{
+	color: orange;
+	font-size: 23px;
+	width: 100%;
+	letter-spacing: 4px;
+	font-style: italic;
+}
+.updates .card .card-body a{
+	float: right;
+	color: blue;
+}
+.stats .card{
+	width: 100%;
+}
+@media only screen and (max-width: 768px){
+	.burger{
+		visibility: visible;
+	}
+	.navigation{
+		width: 240px;
+		left: -240px;
+	}
+	.nav-active{
+		left: 0;
+	}
+	.updates, .stats{
+		float: left;
+		width: 100%;
+		height: auto;
+		margin-bottom: 5px;
+	}
+	.updates .card{
+		width: 48.99999%;
+	}
+	
+}
+@media only screen and (min-width:  768px){
+	.container{
+		display: inline-flex;
+	}
+	.navigation{
+		left: 0;
+		position: relative;
+		z-index: 0;
+		width: 240px;
+	}
+	.main-panel{
+		width: 100%;
+	}
+	.updates{
+		float: right;
+	}
+	.stats{
+		float: left;
+	}
+}

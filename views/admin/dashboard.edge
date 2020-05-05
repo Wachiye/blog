@@ -1,0 +1,123 @@
+@layout("admin/layout")
+
+@section("content")
+<div class="row">
+    <div class="col-xs-12 today-stats p-0 mt-1">
+        <div class="card">
+            <div class="card-left">
+                <h4 class="card-heading text-primary">Today's Posts</h4>
+                <p class="card-text text-dark">{{newPosts[0].new_posts | 0}} Posts</p>
+            </div>
+            <div class="card-right text-center">
+                <div><i class="fa fa-file-text"></i></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="card-footer">
+                <div class="pull-right">
+                    <a href="/posts/today">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-left">
+                <h4 class="card-heading">Today's New Users</h4>
+                <p class="card-text">{{newUsers[0].new_users | 0}} Users</p>
+            </div>
+            <div class="card-right">
+                <i class="fa fa-users"></i>
+            </div>
+            <div class="clearfix"></div>
+            <div class="card-footer">
+                <div class="pull-right">
+                    <a href="/users/today">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-left">
+                <h4 class="card-heading">Unread Comments</h4>
+                <p class="card-text">{{comments_unread | 0}} Comments</p>
+            </div>
+            <div class="card-right">
+                <i class="fa fa-inbox"></i>
+            </div>
+            <div class="clearfix"></div>
+            <div class="card-footer">
+                <div class="pull-right">
+                    <a href="/unread">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-left">
+                <h4 class="card-heading">Today's Quote</h4>
+                <p class="card-text collapse"><blockquote>{{quote}}</blockquote></p>
+            </div>
+            <div class="card-right">
+                <i class="fa fa-quote-right"></i>
+            </div>
+            <div class="clearfix"></div>
+            <div class="card-footer">
+                <div class="pull-right">
+                    <a href="/#quote">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 googl-stats">
+        
+    </div>
+</div>
+@endsection
+
+@section("aside")
+<div class="well">
+   <h4>All time stats</h4>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <div class="media">
+                <div class="media-left">
+                    <i class="fa fa-users"></i>
+                </div>
+                <div class="media-body">
+                    <h3 class="media-heading mb-2">Users</h3>
+                    <p> {{users[0].all_users | 0 }} Users</p>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="media">
+                <div class="media-left">
+                    <i class="fa fa-file-text"></i>
+                </div>
+                <div class="media-body">
+                    <h3 class="media-heading mb-2">Posts</h3>
+                    <p> {{posts[0].posts | 0 }} Posts</p>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="media">
+                <div class="media-left">
+                    <i class="fa fa-inbox"></i>
+                </div>
+                <div class="media-body">
+                    <h3 class="media-heading mb-2">Comments</h3>
+                    <p> {{comments | 0 }} Comments</p>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="media">
+                <div class="media-left">
+                    <i class="fa fa-eye"></i>
+                </div>
+                <div class="media-body">
+                    <h3 class="media-heading mb-2">Views</h3>
+                    <p> {{views | 0 }} Views</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+@endsection

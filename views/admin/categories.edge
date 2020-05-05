@@ -1,0 +1,59 @@
+@layout("admin/layout")
+
+@section("content")
+
+<table class=" table table-bordered table-sm">
+	<thead>
+		<th class="text-center">Category</th>
+		<th class="text-center">Description</th>
+		<th class="text-center" colspan="2">Action</th>
+	</thead>
+	<tbody>
+		@if(categories.length < 1)
+			<tr>
+				<td colspan="2">No categories yet. Please add one</td>
+				<td>
+					<a href="#add">Add</a>
+				</td>
+			</tr>
+		@else
+
+			@each(category in categories)
+			<tr>
+				<td>{{category.name}}</td>
+				<td>{{category.description}}</td>
+				<td class="text-center">
+					<button class="btn"><i class="fa fa-edit"> </i></button>
+				</td>
+				<td class="text-center">
+					<a class="btn btn-danger btn-sm" href="/categories/{{category.id}}/del">
+						<i class="fa fa-close"></i>
+					</a>
+				</td>
+			</tr>
+			@endeach
+		@endif
+	</tbody>
+	<caption>Current Categories <span class="text-info">{{categories.length}}</span></caption>
+</table>
+
+@endsection
+
+@section("aside")
+<form  id="add" class="form text-left" method="post" action="/categories/add">
+	<fieldset>
+		<legend class="text-center text-muted">Add new category</legend>
+		<div class="form-group">
+			<label for="name">Category</label>
+			<input class="form-control form-control-sm mr-2" type="text" placeholder="Category eg Motivation" name="name" required>
+		</div>
+		<div class="form-group">
+			<label>Description</label>
+			<textarea name="description" placeholder="Category Description" rows="5" spellcheck="true" required class="form-control from-control-sm" maxlength="100"></textarea>
+		</div>
+		<div class="form-group">
+			<button class="btn  btn-primary btn-block" type="submit">Add</button>
+		</div>
+	</fieldset>
+</form>
+@endsection

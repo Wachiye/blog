@@ -1,0 +1,45 @@
+@layout("layout")
+
+@section("content")
+<div class="row">
+	<div class="col-sm-8 offset-sm-2 text-center text-primary mb-1">
+		<marquee behavior="slide" scrolldelay="2">Programmers are not nerds, don't treat us as one!!</marquee>
+	</div>
+	<div class="col mb-1"></div>
+	@each(member in members)
+	<div class="col-sm-6 col-md-4 col-lg-3 small mb-1">
+		<div class="card p-1 mb-1">
+			<div class="card-img-top text-center">
+				<img src="img/users/{{member.image}}" class="img-circle media-object" width="80px" height="80px">
+			</div>
+			<div class="card-body">
+				<div class="card-text">
+					<h6>
+						<div class="text-center">
+							<span class="text-primary">{{member.fullname}}</span>
+							<div>
+								<span class="text-muted">{{member.specialization}}</span>
+							</div>
+						</div>
+					</h6>
+					<div>
+						<i class="fa fa-thumbs-up"></i>
+						<span class="text-success">{{member.languages}}</span>
+					</div>
+					<div>
+						<div>
+							<i class="fa fa-envelope"></i>
+							<a href="mailto:{{member.email}}">{{member.email}}</a>
+						</div>
+						<div>
+							<i class="fa fa-phone"></i>
+							<a href="mailto:">{{member.phone}}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@endeach
+</div>
+@endsection

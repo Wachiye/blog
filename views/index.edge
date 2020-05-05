@@ -1,0 +1,64 @@
+@layout("layout")
+
+@section("content")
+<div class="row">
+    <div class="col-sm-8 offset-sm-2 my-3">
+        <div class="card p-1" style="border:none;">
+            <img src="img/about-bg.jpg" alt="" class="img-responsive card-img-top" width="600" height="400">
+            <h5 class="card-title mt-2">Who we are</h5>
+            <div class="card-text">
+            	<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque culpa ducimus dignissimos? A nam quod explicabo voluptatibus, quisquam magnam adipisci voluptatum! Corrupti voluptatum quo est voluptatibus, mollitia incidunt nostrum magni.
+            	</p>
+            </div>
+            <hr>
+            <div class="card-text">
+	            <h5>Our services</h5>
+		        <ul class="list-inline mx-auto services">
+		        	<!-- @each(service in services) -->
+		        	<li class="list-inline-item">Web Design</li>
+		        	<li class="list-inline-item">Web Development</li>
+		        	<li class="list-inline-item">System Testing</li>
+		        	<li class="list-inline-item">Desktop Application Development</li>
+		        	<li class="list-inline-item">Android Application Development</li>
+		        	<li class="list-inline-item">Wireframe prototyping</li>
+		        	<li class="list-inline-item">Requirement Analysis</li>
+		        	<!-- @endeach -->
+		        </ul>
+		        <div class="pull-right">
+		        	<a href="#"> <i class="fa fa-github-square" > Here are some of our projecs on github </i></a>
+		        </div>
+		    </div>
+	        <hr>
+	        <div class="card-text">
+		        <h5 class="text-muted">Feel free to contat us for any inquiries or assistance</h5>
+		        <h6><em>Don't forget to follow us on the big social media platforms</em></h6>
+		        <ul>
+		        	<li>
+		        		<a href="tel:{{info.phone}}">
+		        			<i class="fa fa-phone"></i> {{info.phone || '+2547-90983123'}}
+		        		</a>
+		        	</li>
+		        	<li>
+		        		<a href="mailto:{{info.email}}">
+		        			<i class="fa fa-envelope"></i> {{info.email}}
+		        		</a>
+		        	</li>
+		        	<li>
+		        		<a href="/contact">
+		        			<i class="fa fa-inbox"></i> Our contact page
+		        		</a>
+		        	</li>
+		        </ul>
+		    </div>
+		    <div class="card-text">
+        		<a class="btn-link pull-right" href="/about">More about {{info.site}}
+        		</a>
+    		</div>
+        </div>
+    </div>
+</div>
+@endsection
+
+<div class="clearfix">
+    <a class="btn btn-primary float-right btn-sm" href="/posts">Posts&rarr;</a>
+</div>

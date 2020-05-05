@@ -1,0 +1,171 @@
+*{
+	text-decoration: none;
+	
+}
+.dashboard{
+	background-color: #252830;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 110vh;
+	align-items: center;
+	color: #FFF;
+	overflow-y: auto;
+}
+.close{
+	color: #fff;
+	font-size: 30px;
+}
+.menu, .back-top{
+	transition: all 0.5s;
+	position: fixed;
+	right: 0;
+	background-color: #252830;
+	color: #FFF;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	padding: 8px;
+	font-size: 25px;
+	border-radius: 100%;
+	opacity: 0.7;
+	z-index: 2;
+}
+.menu{
+	top: 70vh;
+}
+.back-top{
+	top: 80vh;
+}
+ul.navigation{
+	margin-top: 1rem;
+	width: 100%;
+	padding-top: 0.5rem;
+}
+ul.navigation li{
+	width: 100%;
+	margin-bottom: 1rem;
+}
+ul.navigation li a{
+	color: #8b91a0;
+	width: 100%;
+	padding-left: 10px;
+	float: left;
+	clear:both;
+}
+ul.navigation li a .fa{
+	margin-right: 0.7rem;
+	width: 30px;
+	height: 30px;
+}
+ul.navigation a:hover,  ul.navigation a:focus {
+	background-color: inherit;
+	color: #FFF;
+	text-decoration: none;
+}
+.profile-image, .profile-title {
+	float: left;
+}
+.profile-image{
+	width: 20%;
+}
+.profile-title{
+	font-size: 1.5rem;
+	vertical-align: middle;
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding-left: 1rem;
+}
+.header{
+	background-color: #2F92CA;
+}
+.header div a{
+	color: #FFF;
+	text-decoration: none;
+}
+.header div a .fa{
+	margin-right: 1rem;
+	padding-top: 1rem;
+	padding-left: 0.55rem;
+}
+.header div.notification a .fa{
+	padding-left: 1.5rem;
+}
+.header div a .badge{
+	position: absolute;
+	background-color: transparent;
+	font-size: 0.7em;
+	z-index: 1;
+	margin-top: 0.2rem;
+}
+.today-stats{
+	width: 100%;
+	margin: 0;
+	background-color: #ccc;
+	padding: 5px ;
+}
+.today-stats .card{
+    width: 48.9999%;
+    height: 120px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 8px;
+    float: left;
+    margin: 1px;
+}
+.card .card-left, .card .card-right{
+    float: left;
+    border-bottom: 1px solid white;
+    height: 80px;
+}
+.card-left{
+    width: 80%;
+}
+.card-right{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+}
+ul#tabs{
+	width: 100%;
+	height: auto;
+	margin-top: 5px;
+    display: inline-flex;
+    justify-content: space-around;
+    border-bottom: none;
+}
+ul#tabs li{
+    padding: 8px;
+    cursor: pointer;
+    font-size: 10pt;
+}
+ul#tabs li a{
+    width: 100%;
+    text-decoration: none;
+}
+@media only screen and (max-width: 767px){
+	.dashboard{
+		position: absolute;
+		background-color: #000;
+		z-index: 2;
+		opacity: 0.9;
+	}
+	.hidden{
+		z-index: -2;
+		transition: 0.5s ;
+	}
+	
+    div#summary, div#change, div#password{
+        margin: auto;
+    }
+
+}
+@media only screen  and (min-width: 992px){
+	.menu,.close{
+		display: none;
+	}
+}

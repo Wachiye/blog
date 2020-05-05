@@ -1,0 +1,106 @@
+@layout("admin/layout")
+
+@section("content")
+<div class="panel table-responsive">
+	<div class="panel-heading">
+		<div class="pull-right">
+			<button>Select All</button>
+			<a href="">Delete</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table small bg-dark">
+			<thead>
+				<th></th>
+				<th>Fullname</th>
+				<th>Username</th>
+				<th>Email</th>
+				<th>Website</th>
+				<th>
+					<i class="fa fa-file-text"></i>
+				</th>
+				<th>
+					<i class="fa fa-inbox"></i>
+				</th>
+				<th>Delete</th>
+			</thead>
+			<tbody>
+				@each(user in users)
+					<tr>
+						<td>
+							<input type="checkbox" name="check" value="{{user.id}}">
+						</td>
+						<td>{{user.fullname}}</td>
+						<td>{{user.username}}</td>
+						<td>{{user.email}}</td>
+						<td>{{user.website}}</td>
+						<td>{{user.posts}}</td>
+						<td>{{user.comments}}</td>
+						<td>
+							<button class="btn btn-sm" data-toggle="modal" data-target="#edit-role" onclick="fillData('{{user.id}}','{{user.username}}','{{user.category}}')">
+								<i class="fa fa-edit"></i>
+							</button>
+							<a class="btn-link" href="/users/{{user.id}}/del">
+								<i class="fa fa-close text-danger"></i>
+							</a>
+						</td>
+					</tr>
+					
+				@endeach
+			</tbody>
+			<caption>List Of Users</caption>
+			<tfoot>
+				<tr>
+					<td colspan="2">All Users:  {{users.length}}</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<div class="modal fade" role="dialog" id="edit-role" tabindex="-1" >
+	    <div class="modal-dialog " role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+	                <h4 class="modal-title">Change User Role</h4></div>
+	            <div class="modal-body">
+	                <form id="form-data" action="/users/" method="POST">
+						<fieldset>
+							<div class="form-group">
+								<label for="username">Username</label>
+								<input  id="user_fill" class="form-control form-control-sm" name="username" placeholder="Username" disabled />
+							</div>
+							<div class="form-group">
+								<label for="role">Current Role</label>
+								<input id="role_fill" class="form-control form-control-sm" name="role" placeholder="Current Role" disabled />
+							</div>
+							<div class="form-group">
+								<label for="new_role">New Role</label>
+								<select class="form-control" name="new_role">
+								    <optgroup label="Available Roles">
+								        <option value="Administrator" selected>Administrator</option>
+								        <option value="Subscriber">Subscriber</option>
+								    </optgroup>
+								</select>
+							</div>
+							<button class="btn btn-success btn-block" type="submit">Save Changes</button>
+						</fieldset>
+					</form>
+	            </div>
+	            <div class="modal-footer">
+	                <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+@endsection
+	
+@section("scripts")
+<script>
+	function fillData( id, user, role){
+		document.getElementById("form-data").action = "users/"+id+"/change"
+		document.getElementById("user_fill").value = user
+		document.getElementById("role_fill").value = role
+	}
+</script>
+@endsection

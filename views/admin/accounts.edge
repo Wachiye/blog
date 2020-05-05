@@ -1,0 +1,21 @@
+@layout("admin-layout")
+
+@section("content")
+<div class="site-accounts">
+	<form>
+	<span class="text-center text-info">
+		<h5>Social account</h5>
+	</span>
+	<select class="form-control form-control-sm">
+		<option value="facebook">Facebook</option>
+		<option value="twitter">Twitter</option>
+		<option value="github">Github</option>
+		<option value="linkedin">LinkedIn</option>
+		<option value="other">Other</option>
+	</select>
+	<button class="btn btn-primary btn-sm" type="button"></button>
+	<input type="text" name="other" placeholder="Specify">
+	<input type="text" name="other-text" placeholder="Link here ...">
+	
+</div>
+@endsection

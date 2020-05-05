@@ -1,0 +1,53 @@
+@layout("admin/layout")
+
+@section("content")
+<div class="row p-1">
+	<div class="col" style="margin:2px;">
+		<div class="pull-right" style="margin:2px;">
+			<a class="btn-link" href="/new-member">
+				<i class="fa fa-plus"></i>
+			</a>
+		</div>
+	</div>
+	<div class="col">
+		<div class="table-responsive">
+			<table class="table table-stripped table-hover">
+				<thead>
+					<th>Image</th>
+					<th>Name</th>
+					<th>Specialization</th>
+					<th>Languagues</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Delete</th>
+				</thead>
+				<tbody>
+					@if(members.length == 0)
+					<tr>
+						<td colspan="7"> You have 0 Team Members</td>
+					</tr>
+					@else
+						@each(member in members)
+						<tr>
+							<td>
+								<img class="img-circle" width="40px" height="40px" src="img/users/{{member.image}}" />
+							</td>
+							<td>{{member.fullname}}</td>
+							<td>{{member.specialization}}</td>
+							<td>{{member.languages}}</td>
+							<td>{{member.email}}</td>
+							<td>{{member.phone}}</td>
+							<td>
+								<a href="/members/{{member.id}}/del">Delete</a>
+							</td>
+						</tr>
+						@endeach
+					@endif
+				</tbody>
+				<caption>Your Team Members: {{members.length}}</caption>
+			</table>
+		</div>
+	</div>
+</div>
+@endsection
+

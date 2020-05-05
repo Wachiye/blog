@@ -1,0 +1,32 @@
+@layout("admin/layout")
+@section("content")
+<div class="list-group mt-2">
+	@each(comment in comments)
+	<div class="list-group-item">
+		<div class="media p-1">
+			<div class="media-left">
+				<img class="img-circle" src="img/posts/{{comment.post_id}}.jpg" width="50px" height="50px">
+			</div>
+			<div class="media-body">
+				<a class="text-primary media-heading" href="/view={{comment.post_id}}">Post : {{comment.post}}</a>
+				<p>{{comment.comment}}</p>
+				<p class="text-muted">By {{comment.username}}</p>
+				<span class="text-secondary">
+		          	<em>Posted on {{comment.date}}</em>
+		        </span>
+				<div class="pull-right">
+					@if(comment.approved != 'Approved')
+					<a class="btn-link btn-sm text-success" href="/comments/{{comment.id}}/approve">
+						<i class="fa fa-check"></i>
+					</a>
+					@endif
+					<a class="btn-link btn-sm text-danger" href="/comments/{{comment.id}}/trash">
+						<i class="fa fa-trash"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	@endeach
+</div>
+@endsection

@@ -1,0 +1,23 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+
+  "dependencies" : {
+    "express" : "latest",
+    "mysql" : "latest",
+    "bcryptjs" : "latest",
+    "express-session" : "latest",
+    "express-fileupload" : "latest",
+    "express-edge" : "latest",
+    "body-parser" : "latest",
+    "nodemailer" : "latest"
+  }
+}

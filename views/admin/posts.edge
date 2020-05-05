@@ -1,0 +1,67 @@
+@layout("admin/layout")
+
+@section("content")
+<div class="posts">	
+    <div class="list-group">
+    	@each(post in all)
+    	<div class="list-group-item">
+    		<div class="media">
+    			<div class="media-left">
+    				
+    					<img class="media-object img-circle " src="img/posts/{{post.image}}" width="70px" height="70px" >
+    				
+    			</div>
+    			<div class="media-body">
+    				<a href="/view={{post.id}}">
+    					<h3 class="media-heading text-primary">{{post.title}}</h3>
+    				</a>
+    				<div class="pull-right">
+						<a href="/posts/{{post.id}}/del" class="text-danger">Delete</a>
+    				</div>
+    				<div class ="pull-left">
+		    			<a class="btn btn-sm" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-{{post.id}}" role="button" href="#collapse-{{post.id}}"> More <i class="fa fa-caret-down"></i></a>
+					    <div class="collapse" id="collapse-{{post.id}}">
+					        <p>
+					        	<i class="fa fa-user"> Posted By {{post.author}}</i>
+					        </p>
+					        <p>
+					        	<i class="fa fa-calendar"> On Date {{post.dateCreated}}</i>
+					        </p>
+					        <p>
+					        	<i class="fa fa-eye"> Views {{post.views | 0}}</i>
+					        </p>
+					        <p>
+					        	<i class="fa fa-user"> Comments {{post.comments | 0}}</i>
+					        </p>
+					    </div>
+					</div>
+    			</div>
+    		</div>
+    		
+    	</div>
+        @endeach
+    </div>
+</div>
+@endsection
+
+@section("aside")
+	<div class="well">
+		<div id="post-stats">
+			<h3>Post Stats</h3>
+			<div class="list-group">
+				<div class="list-group-item">
+					<h3 class="text-muted">Total</h3>
+					<p>{{posts}}</p>
+				</div>
+				<div class="list-group-item">
+					<h3 class="text-muted">Comments</h3>
+					<p>{{comments}}</p>
+				</div>
+				<div class="list-group-item">
+					<h3 class="text-muted">Views</h3>
+					<p>{{views}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+@endsection

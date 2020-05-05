@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{info.title}}</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content=" name={{info.author.name}}, email={{info.author.email}}">
+	<!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div class="col-sm-8 mt-2" style="margin:auto;">
+		<div class="jumbotron">
+			<header>
+				<h4>404!! PAGE NOT FOUND</h4>
+				<hr>
+				<p class="text-info">The server is up and running but it looks like the page you are trying to access <span class="text-danger">does not exits</span>. Try the following options: <br>
+					<ul>
+						<li class="text-primary" onclick="refresh()" style="cursor:pointer;"> Refreshing the page</li>
+						<li>Checking your internet connection</li>
+						<li>Restarting your browser</li>
+						<li>Go back to your previous page and try again</li>
+					</ul>
+				</p>
+				<button class="btn btn-warning btn-sm m-2" onclick="goBack()">Go Back</button>
+				<div class="container small bg-light text-muted text-center " style="border-radius: 10px;">
+					<p>If the problem persists, please contact the admin</p>
+					<hr>
+					<div class="media">
+						<div class="media-left">
+							<img class="img-circle img-responsive" src="img/users/admin.jpg" width="50px" height="50px" style="border-radius: 100%;"/>
+						</div>
+						<div class="media-body">
+							<h5 class="media-heading">{{info.author.name}}</h5>
+							<h6> <a href="mailto:{{info.author.email}}">{{info.author.email}}</a></h6>
+						</div>
+					</div>
+				</div>
+			</header>
+		</div>
+	</div>
+<script>
+	function goBack() {
+		window.history.back()
+	}
+	function refresh(){
+		window.location.reload()
+	}
+</script>
+</body>
+</html>
+	

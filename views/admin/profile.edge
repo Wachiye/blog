@@ -1,0 +1,110 @@
+@layout("admin/layout")
+
+@section("content")
+<div class="row">
+	<div id="my-profile" class="col-sm-6">
+		<div class="mb-2">
+			<form action="/profile/{{profile.id}}/image" method="POST" encType="multipart/form-data">
+				<fieldset>
+					<legend>Profile image</legend>
+					<div class="form-group">
+						<img class="img-circle img-responsive" src="img/users/{{profile.image}}" width="100px" height="100px" />
+						<div class="form-group">
+							<input class="form-control form-control-sm" type="file" name="image" accept="/images/*">
+						</div>
+						<button class="btn btn-primary btn-sm mt-1" type="submit">Change Image</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		
+		<div class="mb-2">
+			<form action="/profile/{{profile.id}}/pwd" method="POST">
+				<fieldset>
+					<legend>Change Password</legend>
+					<div class="form-group">
+						<label for="">Current Password</label>
+						<input class="form-control form-control-sm"  name="password" type="password" minlength="6" placeholder="Current Password" required/>
+					</div>
+					<div class="form-group">
+						<label for="new_password">New Password</label>
+						<input class="form-control form-control-sm" type="password" name="new_password" placeholder="New Password" minlength="6" required/>
+					</div>
+					<div class="form-group">
+						<label for="confirm_password">Confirm Password</label>
+						<input class="form-control"  type="password" placeholder="Confirm Password" name="confirm_password" minlength="6" required />
+					</div>
+					<button class="btn btn-block btn-success" type="submit">Change Password</button>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<form action="/profile/{{profile.id}}/edit" method="POST">
+			<fieldset>
+				<legend>Account Details</legend>
+				<div class="form-group">
+					<label for="username">Username</label>
+					<input class="form-control form-control-sm"  value="{{req.session.user.username}}" name="username" required />
+				</div>
+				<div class="form-group">
+					<label for="fullname">Fullname</label>
+					<input class="form-control form-control-sm" value="{{req.session.user.fullname}}" name="fullname"  required/>
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input class="form-control" value="{{req.session.user.email}}" name="email" disabled />
+				</div>
+				<div class="form-group">
+					<label for="websiteq">Website</label>
+					<input class="form-control" value="{{req.session.user.website}}" name="website" required />
+				</div>
+				<div class="form-group">
+					<button class="btn btn-block btn-success" type="submit">Save Changes</button>
+				</div>
+			</fieldset>
+		</form>
+		
+	</div>
+</div>
+@endsection
+
+@section("aside")
+<div class="posts">
+	<div class="well">
+		<h4 class="text-muted text-success text-center">Your Comments</h4>
+		@each(comment in myComments)
+		<div class="media">
+			<div class="media-body">
+				<h3 class="media-heading">
+					<a href="/view={{comment.post_id}}">Post: {{comment.post_title}}</a>
+				</h3>
+				<p> <i class="fa fa-inbox"></i> Comment: {{comment.message}}</p>
+				<div class="pull-right">
+					<a href="/comments/{{comment.id}}/del">Delete</a>
+				</div>
+			</div>
+		</div>
+		@endeach
+		
+		<h4 class="text-muted">Your Posts</h4>
+		<div class="list-group">
+			@each(post in myPosts)
+			<div class="list-group-item">
+				<div class="media">
+					<div class="media-left">
+						<img class="img-thumbnail media-object" src="img/posts/{{post.image}}" width="50px" height="50px" />
+					</div>
+					<div class="media-body">
+						<h3 class="media-heading"><a href="/view={{post.id}}">{{post.title}}</a></h3>
+						<div class="pull-right">
+							<a href="/posts/{{post.id}}/del">Delete</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			@endeach
+		</div>
+	</div>
+</div>
+@endsection
