@@ -1,7 +1,3 @@
-CREATE DATABASE blog;
-
-USE blog;
-
 CREATE TABLE users(
     user_id int(11) PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(16) NOT NULL,
