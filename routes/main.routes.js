@@ -20,7 +20,7 @@ const url = require('url')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended: true}))
 
-router.use(session({secret : '4CD5-56DF-wed5Tdw', saveUninitialized: true, resave: true}))
+router.use(session({secret : '4CD5-56DF-wed5Tdw', saveUninitialized: false, resave: false}))
 
 router.use(engine)
 router.use(uploader())
