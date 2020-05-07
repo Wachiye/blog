@@ -3,10 +3,10 @@ const mysql = require("mysql")
 
 //connection string
 let config = {
-    host: "db4free.net",
-    user: "expdblog",
-    password: "expdblog",
-    database: "expdblog"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
 }
 //instantiate connection
 const conn = mysql.createConnection(config)
