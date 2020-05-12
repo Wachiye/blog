@@ -11,6 +11,10 @@ const members = require("../controllers/members")
 const mailer = require("../mail/mailer")
 const bodyParser = require("body-parser")
 const session = require("express-session")
+const redis = require('redis');
+const redisStore = require('connect-redis')(session);
+const client  = redis.createClient();
+
 const { config, engine} = require("express-edge")
 const IMG_DIR = __dirname +"/../public/img/users/"
 const uploader = require("express-fileupload")
@@ -20,7 +24,10 @@ const url = require('url')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended: true}))
 
-router.use(session({secret : '4CD5-56DF-wed5Tdw', saveUninitialized: false, resave: false}))
+router.use(session({secret : '4CD5-56DF-wed5Tdw', 
+     store: new redisStore({ host: process.env.DB_HOST, port: process.env.DB_PORT, client: client,ttl : 260}),
+     saveUninitialized: false,
+     resave: false}))
 
 router.use(engine)
 router.use(uploader())
