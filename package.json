@@ -23,6 +23,7 @@
     "bcryptjs" : "^2.4.3",
     "express-session" : "latest",
     "redis":"latest",
+    "connect-redis":"latest",
     "express-fileupload" : "^1.1.6-alpha.6",
     "express-edge" : "^2.0.1",
     "body-parser" : "^1.19.0",
