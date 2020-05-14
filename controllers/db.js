@@ -1,6 +1,8 @@
 // will establish database connection
 const mysql = require("mysql")
 
+require('dotenv').config()
+
 //connection string
 let config = {
     host: process.env.DB_HOST,
