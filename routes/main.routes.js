@@ -11,9 +11,7 @@ const members = require("../controllers/members")
 const mailer = require("../mail/mailer")
 const bodyParser = require("body-parser")
 const session = require("express-session")
-const redis = require('redis');
-const redisStore = require('connect-redis')(session);
-const client  = redis.createClient();
+const MySQLStore = require('mysql-express-session')(session);
 
 const { config, engine} = require("express-edge")
 const IMG_DIR = __dirname +"/../public/img/users/"
@@ -24,10 +22,32 @@ const url = require('url')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended: true}))
 
-router.use(session({secret : '4CD5-56DF-wed5Tdw', 
-     store: new redisStore({ host: process.env.DB_HOST, port: process.env.DB_PORT, client: client,ttl : 260}),
-     saveUninitialized: false,
-     resave: false}))
+var options ={
+     host: process.env.DB_HOST,
+     user: process.env.DB_USER,
+     pass: process.env.DB_PASS,
+     database: process.env.DB_DB,
+     checkExpirationInterval: 900000,
+     expiration: 86400000,
+     createDatabaseTable: true,
+     schema: {
+          tableName: 'sessions',
+          columnNames: {
+                session_id : 'session_id',
+                expires: 'expires',
+                data: 'data'
+          }
+     }
+}
+
+var session_store = new MySQLStore(options)
+
+router.use(session({
+     secret : '4CD5-56DF-wed5Tdw', 
+     store: session_store,
+     saveUninitialized: true,
+     resave: true
+}))
 
 router.use(engine)
 router.use(uploader())
