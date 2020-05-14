@@ -26,7 +26,7 @@ var options ={
      host: process.env.DB_HOST,
      user: process.env.DB_USER,
      pass: process.env.DB_PASS,
-     database: process.env.DB_DB,
+     database: process.env.DB_NAME,
      checkExpirationInterval: 900000,
      expiration: 86400000,
      createDatabaseTable: true,
