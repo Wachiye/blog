@@ -27,8 +27,8 @@ var options ={
      user: process.env.DB_USER,
      pass: process.env.DB_PASS,
      database: process.env.DB_NAME,
-     checkExpirationInterval: 900000,
-     expiration: 86400000,
+
+
      createDatabaseTable: true,
      schema: {
           tableName: 'sessions',
