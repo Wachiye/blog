@@ -19,6 +19,8 @@ const uploader = require("express-fileupload")
 const url = require('url')
 //config({ cache: process.env.NODE_ENV === 'development'})
 
+require('dotenv').config()
+
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended: true}))
 
