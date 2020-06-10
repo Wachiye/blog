@@ -24,6 +24,10 @@ require('dotenv').config()
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended: true}))
 
+const MongoStore = require('connect-mongo')(session);
+
+
+/* 
 var options ={
      host: process.env.DB_HOST,
      user: process.env.DB_USER,
@@ -43,6 +47,7 @@ var options ={
 }
 
 var session_store = new MySQLStore(options)
+*/
 
 router.use(session({
      secret : '4CD5-56DF-wed5Tdw', 
@@ -50,6 +55,18 @@ router.use(session({
      saveUninitialized: true,
      resave: true
 }))
+
+app.use(session({
+    store: new MongoStore({
+        url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@sessions-tvjpn.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
+    }),
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 * 2 // two weeks
+    }
+}));
 
 router.use(engine)
 router.use(uploader())
