@@ -47,7 +47,6 @@ var options ={
 }
 
 var session_store = new MySQLStore(options)
-*/
 
 router.use(session({
      secret : '4CD5-56DF-wed5Tdw', 
@@ -55,6 +54,8 @@ router.use(session({
      saveUninitialized: true,
      resave: true
 }))
+
+*/
 
 app.use(session({
     store: new MongoStore({
