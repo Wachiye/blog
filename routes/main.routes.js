@@ -28,7 +28,7 @@ require('dotenv').config()
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended: true}))
 
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@sessions-tvjpn.mongodb.net/${process.env.DB_NAME}`,{
+mongoose.connect(process.env.MONGO_STRING,{
     useUnifiedTopology: true,
     useNewUrlParser: true
 })
