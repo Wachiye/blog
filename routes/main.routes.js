@@ -58,7 +58,7 @@ router.use(session({
 
 */
 
-app.use(session({
+router.use(session({
     store: new MongoStore({
         url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@sessions-tvjpn.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
     }),
