@@ -11,7 +11,8 @@ const members = require("../controllers/members")
 const mailer = require("../mail/mailer")
 const bodyParser = require("body-parser")
 const session = require("express-session")
-const MySQLStore = require('mysql-express-session')(session);
+
+//const MySQLStore = require('mysql-express-session')(session);
 
 const { config, engine} = require("express-edge")
 const IMG_DIR = __dirname +"/../public/img/users/"
