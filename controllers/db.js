@@ -20,7 +20,7 @@ conn.connect((err)=>{
         throw err
    }
     else{
-        console.log("Coonnected", conn)
+        console.log("Connected", conn)
     }
 })
 
