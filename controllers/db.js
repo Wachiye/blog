@@ -19,6 +19,9 @@ conn.connect((err)=>{
         console.log(config)
         throw err
    }
+    else{
+        console.log("Coonnected", $conn)
+    }
 })
 
 module.exports = conn
