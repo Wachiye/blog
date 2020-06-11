@@ -11,6 +11,9 @@ const members = require("../controllers/members")
 const mailer = require("../mail/mailer")
 const bodyParser = require("body-parser")
 const session = require("express-session")
+const connectMongo = require('connect-mongo')
+const mongoose = require("mongoose")
+const mongoStore = connectMongo(session)
 
 //const MySQLStore = require('mysql-express-session')(session);
 
@@ -25,9 +28,22 @@ require('dotenv').config()
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended: true}))
 
-const MongoStore = require('connect-mongo')(session);
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@sessions-tvjpn.mongodb.net/${process.env.DB_NAME}`,{
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+})
 
-
+router.use(session({
+    store: new mongoStore({
+        mongooseConnection: mongoose.connection
+    }),
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 * 2 // two weeks
+    }
+}))
 /* 
 var options ={
      host: process.env.DB_HOST,
@@ -58,7 +74,7 @@ router.use(session({
 
 */
 
-router.use(session({
+/*router.use(session({
     store: new MongoStore({
         url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@sessions-tvjpn.mongodb.net/${process.env.DB_NAME}`
     }),
@@ -69,6 +85,7 @@ router.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7 * 2 // two weeks
     }
 }));
+*/
 
 router.use(engine)
 router.use(uploader())
