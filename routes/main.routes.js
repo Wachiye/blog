@@ -60,7 +60,7 @@ router.use(session({
 
 router.use(session({
     store: new MongoStore({
-        url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@sessions-tvjpn.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
+        url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@sessions-tvjpn.mongodb.net/${process.env.DB_NAME}`
     }),
     secret: process.env.SECRET_KEY,
     resave: false,
