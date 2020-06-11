@@ -166,7 +166,7 @@ global.unreadComments = unreadComments
 //index route
 router.get("/", async (req,res) =>{
     res.render("index",{info, req})
-    console.log('connected',conn)
+    console.log('connected',conn, session)
 })
 //logout route
 router.get("/logout", (req, res)=>{
