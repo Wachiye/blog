@@ -28,9 +28,13 @@ require('dotenv').config()
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended: true}))
 
-mongoose.connect(process.env.MONGO_STRING,{
-    useUnifiedTopology: true,
-    useNewUrlParser: true
+mongoose.connect(process.env.MONGO_STRING, function (err){
+  if(!err){
+    console.log('Mongo connected')
+  }
+  else{
+    console.log(err)
+  }
 })
 
 router.use(session({
