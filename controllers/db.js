@@ -20,7 +20,7 @@ conn.connect((err)=>{
         throw err
    }
     else{
-        console.log("Connected", conn)
+        console.log("MySQL Connected")
     }
 })
 
