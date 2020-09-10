@@ -1,32 +1,95 @@
 @layout("admin/layout")
 @section("content")
-<div class="list-group mt-2">
-	@each(comment in comments)
-	<div class="list-group-item">
-		<div class="media p-1">
-			<div class="media-left">
-				<img class="img-circle" src="img/posts/{{comment.post_id}}.jpg" width="50px" height="50px">
+<div class="row">
+	<div class="col-sm-12">
+		<div class="pull-left btn-group">
+			<button type="button" id="view-unread" class="btn btn-sm btn-warning" data-group="comment">Pending</button>
+			<button type="button" id="view-all" class="btn btn-sm btn-primary" data-group="comment">All</button>
+		</div>
+		<div class="pull-right btn-group">
+			<button class="btn btn-primary btn-sm mr-1 select-btn" data-select="comments[]" value="">
+				<i class="fa fa-check" ></i>
+				<span class="badge text-primary bg-light select-value">0</span>
+			</button>
+			<button class="btn btn-primary btn-sm mr-1 unselect-btn d-none" data-select="comments[]">
+				<i class="fa fa-check"></i>
+				<span class="badge text-primary bg-light select-value">0</span>
+			</button>
+			<button class="btn btn-primary btn-sm bulk-action" data-select="comments" data-link="read" title="Mark as read">
+				<i class="fa fa-book"></i>
+			</button>
+			<button class="btn btn-success btn-sm bulk-action" data-select="comments" data-link="approve" title="Approve selected items">
+				<i class="fa fa-check"></i>
+			</button>
+			<button class="btn btn-danger btn-sm bulk-action" data-select="comments" data-link="del" title="Delete selected items">
+				<i class="fa fa-trash"></i>
+			</button>
+		</div>
+	</div>
+</div>
+<div class="col-sm-12 col-md-10 offset-md-1 my-1">
+	<div class="card-block">
+		<input type="hidden" name="comments[]" id="comments[]" value="">
+		@each(comment in comments)
+		<div class="card shadow comment {{comment.status}}" id="{{comment.id}}" data-group="comment">
+			<div class="div-select">
+				<input type="checkbox" name="comments[]" id="{{comment.id}}" value="{{comment.id}}" class="comments select-item">
 			</div>
-			<div class="media-body">
-				<a class="text-primary media-heading" href="/view={{comment.post_id}}">Post : {{comment.post}}</a>
-				<p>{{comment.comment}}</p>
-				<p class="text-muted">By {{comment.username}}</p>
-				<span class="text-secondary">
-		          	<em>Posted on {{comment.date}}</em>
-		        </span>
-				<div class="pull-right">
-					@if(comment.approved != 'Approved')
-					<a class="btn-link btn-sm text-success" href="/comments/{{comment.id}}/approve">
-						<i class="fa fa-check"></i>
-					</a>
-					@endif
-					<a class="btn-link btn-sm text-danger" href="/comments/{{comment.id}}/trash">
-						<i class="fa fa-trash"></i>
-					</a>
+			<div class="card-body">
+				<div class="media">
+	                <div class="media-left d-flex">
+	                  <img src="img/person.png" class="img-circle media-object" width="35px" height="35px">
+	                </div>
+	                <div class="media-body">
+	                  <h6 class="media-heading text-primary">
+	                    {{comment.username}}
+	                  </h6>
+	                  <ul class="list-inline">
+	                    <li class="list-inline-item">
+	                      <i class="fa fa-envelope"></i>
+	                      <a href="mailto:{{comment.email}}">
+	                        {{comment.email}}
+	                      </a>
+	                    </li>
+	                    <li class="list-inline-item">
+	                      <i class="fa fa-globe"></i>
+	                      <a href="{{comment.website}}">
+	                        {{comment.website}}
+	                      </a>
+	                    </li>
+	                  </ul>
+	                  <p class="text-muted small">
+	                    <em>
+	                      {{comment.date}}
+	                    </em>
+	                  </p>
+	                  @if(comment.status == 'unread' || comment.status == 'Unread')
+	                  <p class="small lead text-bold" id="comment-text-{{comment.id}}" >
+	                    	{{comment.comment}}
+	                    </p>
+	                    @else
+	                    <p class="small lead">
+	                    	{{comment.comment}}
+	                    </p>
+	                    @endif
+	                  </p>
+	                </div>
+	            </div>
+				<div class="card-text">
+					<div class="action-list pull-right">
+						@unless(comment.approved == 'approved')
+						<a href="/comments/{{comment.id}}/approve" data-method="PUT" data-values="{{comment.id}}">
+							<i class="fa fa-check"></i>
+						</a>
+						@endunless
+						<a href="/comments/{{comment.id}}/del" data-method="DELETE" data-values="{{comment.id}}">
+							<i class="fa fa-remove text-danger"></i>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
+		@endeach
 	</div>
-	@endeach
 </div>
 @endsection

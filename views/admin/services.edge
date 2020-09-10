@@ -1,0 +1,27 @@
+@layout("admin/layout")
+
+@section("content")
+<!-- services settings-->
+<div class="row">
+	<div class="col-sm-12">
+		<h3>Services</h3>
+		<p class="text-info">Services to offer your clients</p>
+	</div>
+	<div class="col-sm-6 col-md-4">
+		<!-- add service partial here -->
+		@include('partials.addService')
+	</div>
+	<div class="col-sm-6 col-md-8">
+		<ul class="list-inline my-1">
+			@each(service in services)
+			<li class="list-inline-item" title="{{service.description}}">
+				<div class="d-flex-column">
+					<img src="img/{{service.image}}" width="100" height="100" class="rounded">
+					<a href="/services/{{service.id}}/del" class="call-link mt-1 text-center">Remove</a>
+				</div>
+			</li>
+			@endeach
+		</ul>
+	</div>
+</div>
+@endsection

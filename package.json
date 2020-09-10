@@ -1,23 +1,35 @@
 {
   "name": "blog",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "ExpD blog",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": " Wachiye Jeremiah Siranjofu <siranjofuw@gmail.com>",
   "license": "ISC",
 
+  "repository":{
+      "type": "git",
+      "url" :"https://github.com/wachiye/blog.git/second-update"
+  },
+  "engine": {
+      "node":"12.13.0"
+  },
   "dependencies" : {
-    "express" : "latest",
-    "mysql" : "latest",
-    "bcryptjs" : "latest",
+    "express" : ">=3.11.0",
+    "mysql" : "^2.17.1",
+    "bcryptjs" : "^2.4.3",
     "express-session" : "latest",
-    "express-fileupload" : "latest",
-    "express-edge" : "latest",
-    "body-parser" : "latest",
-    "nodemailer" : "latest"
+    "mongoose":"latest",
+    "connect-mongo":"latest",
+    "express-fileupload" : "^1.1.6-alpha.6",
+    "express-edge" : "^2.0.1",
+    "body-parser" : "^1.19.0",
+    "nodemailer" : "latest",
+    "openurl": "latest",
+    "dotenv":"latest"
   }
 }

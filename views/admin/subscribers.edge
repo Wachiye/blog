@@ -1,0 +1,92 @@
+@layout("admin/layout")
+
+@section("content")
+<div class="row">
+	<div class="col-sm-12">
+		<div class="card bg-transparent my-1 h-100">
+			<div class="card-header">
+				<div class="pull-left">Actions</div>
+				<div class="btn-group pull-right">
+					<button class="btn btn-primary btn-sm mr-1 select-btn" data-select="subscribers[]" value="">
+						<i class="fa fa-check" ></i>
+						<span class="badge text-primary bg-light select-value">0</span>
+					</button>
+					<button class="btn btn-primary btn-sm mr-1 unselect-btn d-none" data-select="subscribers[]">
+						<i class="fa fa-check"></i>
+						<span class="badge text-primary bg-light select-value">0</span>
+					</button>
+					<button class="btn btn-danger btn-sm bulk-action" data-select="subscribers" data-link="del">
+						<i class="fa fa-trash"></i>
+					</button>
+				</div>
+			</div>
+			<div class="card-body" style="overflow-x: auto;">
+				<input type="hidden" name="subscribers[]" id="subscribers[]" value="">
+				<table class="table" style="word-break: break-all; hyphens: auto;">
+					<thead class="bg-dark text-light">
+						<th scope="col">
+							<button class="btn btn-primary btn-sm mr-1 select-btn" data-select="subscribers[]" value="">
+								<i class="fa fa-check" ></i>
+								<span class="badge text-primary bg-light select-value">0</span>
+							</button>
+							<button class="btn btn-primary btn-sm mr-1 unselect-btn d-none" data-select="subscribers[]">
+								<i class="fa fa-check"></i>
+								<span class="badge text-primary bg-light select-value">0</span>
+							</button>
+						</th>
+						<th scope="col">Name</th>
+						<th scope="col">Other</th>
+						<th scope="col">Date Created</th>
+						<th scope="col">Action</th>
+					</thead>
+					<tbody>
+						@each(subscriber in subscribers)
+						<tr>
+							<td>
+								<input type="checkbox" name="subscribers[]" id="{{subscriber.id}}" value="{{subscriber.id}}" class="subscribers select-item">
+							</td>
+							<td>
+								{{subscriber.username}}
+							</td>
+							<td>
+								{{subscriber.email}} <br>	
+								{{subscriber.website || 'N/A'}}
+							</td>
+							<td>
+								{{subscriber.dateCreated}}
+							</td>
+							<td>
+								<ul class="list-inline">
+									<li class="list-inline-item">
+										<a href="/subscribers/{{subscriber.id}}/unsubscribe">
+											<i class="fa fa-trash"></i>
+										</a>
+									</li>
+								</ul>
+							</td>
+						</tr>
+						@else
+						<tr>
+							<td colspan="6" class="text-center text-danger">
+								Opp!. Server says No subcribers yet. Please try again later
+							</td>
+						</tr>
+						@endeach
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+@endsection
+	
+@section("scripts")
+<script>
+	function fillData( id, user, role){
+		document.getElementById("form-data").action = "users/"+id+"/change"
+		document.getElementById("user_fill").value = user
+		document.getElementById("role_fill").value = role
+	}
+</script>
+@endsection

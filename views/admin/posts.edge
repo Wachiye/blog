@@ -1,67 +1,84 @@
 @layout("admin/layout")
 
 @section("content")
-<div class="posts">	
-    <div class="list-group">
-    	@each(post in all)
-    	<div class="list-group-item">
-    		<div class="media">
-    			<div class="media-left">
-    				
-    					<img class="media-object img-circle " src="img/posts/{{post.image}}" width="70px" height="70px" >
-    				
-    			</div>
-    			<div class="media-body">
-    				<a href="/view={{post.id}}">
-    					<h3 class="media-heading text-primary">{{post.title}}</h3>
-    				</a>
-    				<div class="pull-right">
-						<a href="/posts/{{post.id}}/del" class="text-danger">Delete</a>
-    				</div>
-    				<div class ="pull-left">
-		    			<a class="btn btn-sm" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-{{post.id}}" role="button" href="#collapse-{{post.id}}"> More <i class="fa fa-caret-down"></i></a>
-					    <div class="collapse" id="collapse-{{post.id}}">
-					        <p>
-					        	<i class="fa fa-user"> Posted By {{post.author}}</i>
-					        </p>
-					        <p>
-					        	<i class="fa fa-calendar"> On Date {{post.dateCreated}}</i>
-					        </p>
-					        <p>
-					        	<i class="fa fa-eye"> Views {{post.views | 0}}</i>
-					        </p>
-					        <p>
-					        	<i class="fa fa-user"> Comments {{post.comments | 0}}</i>
-					        </p>
-					    </div>
-					</div>
-    			</div>
-    		</div>
-    		
-    	</div>
-        @endeach
-    </div>
-</div>
-@endsection
-
-@section("aside")
-	<div class="well">
-		<div id="post-stats">
-			<h3>Post Stats</h3>
-			<div class="list-group">
-				<div class="list-group-item">
-					<h3 class="text-muted">Total</h3>
-					<p>{{posts}}</p>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="card bg-transparent my-1 h-100">
+			<div class="card-header">
+				<div class="pull-left">Actions</div>
+				<div class="btn-group pull-right">
+					<button class="btn btn-primary btn-sm mr-1 select-btn" data-select="posts[]" value="">
+						<i class="fa fa-check" ></i>
+						<span class="badge text-primary bg-light select-value">0</span>
+					</button>
+					<button class="btn btn-primary btn-sm mr-1 unselect-btn d-none" data-select="posts[]">
+						<i class="fa fa-check"></i>
+						<span class="badge text-primary bg-light select-value">0</span>
+					</button>
+					<button class="btn btn-danger btn-sm bulk-action" data-select="posts" data-link="del">
+						<i class="fa fa-trash"></i>
+					</button>
 				</div>
-				<div class="list-group-item">
-					<h3 class="text-muted">Comments</h3>
-					<p>{{comments}}</p>
-				</div>
-				<div class="list-group-item">
-					<h3 class="text-muted">Views</h3>
-					<p>{{views}}</p>
-				</div>
+			</div>
+			<div class="card-body">
+				<input type="hidden" name="posts[]" id="posts[]" value="">
+				<table class="table">
+					<thead class="bg-dark text-light">
+						<th>
+							<button class="btn btn-primary btn-sm mr-1 select-btn" data-select="posts[]" value="">
+								<i class="fa fa-check" ></i>
+								<span class="badge text-primary bg-light select-value">0</span>
+							</button>
+							<button class="btn btn-primary btn-sm mr-1 unselect-btn d-none" data-select="posts[]">
+								<i class="fa fa-check"></i>
+								<span class="badge text-primary bg-light select-value">0</span>
+							</button>
+						</th>
+						<th>Title</th>
+						<th>Stats</th>
+						<th>Action</th>
+					</thead>
+					<tbody>
+						@each(post in posts)
+						<tr>
+							<td>
+								<input type="checkbox" name="posts[]" id="{{post.id}}" value="{{post.id}}" class="posts select-item">
+							</td>
+							<td>
+								{{post.title}}
+							</td>
+							<td>
+								<ul class="list-inline">
+									<li class="list-inline-item">
+										<i class="fa fa-eye"></i>
+										{{post.views}}
+									</li>
+									<li class="list-inline-item">
+										<i class="fa fa-comments"></i>
+										{{post.comments}}
+									</li>
+								</ul>
+							</td>
+							<td>
+								<ul class="list-inline">
+									<li class="list-inline-item">
+										<a href="/create?action=edit&id={{post.id}}">
+											<i class="fa fa-edit"></i>
+										</a>
+									</li>
+									<li class="list-inline-item">
+										<a href="/posts/{{post.id}}/del">
+											<i class="fa fa-trash"></i>
+										</a>
+									</li>
+								</ul>
+							</td>
+						</tr>
+						@endeach
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
+</div>
 @endsection

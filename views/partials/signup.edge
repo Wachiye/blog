@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-sm-12 d-flex">
+        <h4 class="text-muted">Create an account</h4>
+    </div>
+    <div class="col-sm-8 col-md-6 mx-auto">
+        <form id="form-signup" name="form-signup" class="signup-form" action="/signup" method="POST">
+            <div class="form-group my-2">
+                <label for="username">Username</label>
+                <input class="form-control form-control-sm" type="text" name="uname" id="uname" placeholder="Username" required>
+            </div>
+            <div class="form-group my-2">
+                <label for="fullname">Full name</label>
+                <input class="form-control form-control-sm" type="text" name="fname" id="fname" placeholder="Full name" required>
+            </div>
+            <div class="form-group my-2">
+                <div class="form-group my-2">
+                <label for="email">Email</label>
+                <input class="form-control form-control-sm" type="email" name="email" id="email" placeholder="Email" required>
+            </div>
+                <label for="password">Password</label>
+                <input class="form-control form-control-sm" type="password" name="pass" id="pass" placeholder="Password" required minlength="6">
+                <span class="small text-info"><em>Password must be at least 6 charecters</em></span>
+            </div>
+            <div class="form-group my-2">
+                <label for="confirmPassword">Confirm Password</label>
+                <input class="form-control form-control-sm" type="password" name="confirmPass" id="confirmPass" placeholder="Confirm Password" required minlength="6">
+            </div>
+            <div class="form-group">
+                <p class="small">
+                    By Signing up , we assume you have read and agreed to our  terms as stated in the 
+                    <a href="/privacy-policy">Privacy Policy </a>
+                </p>
+            </div>
+            <button class="btn btn-sm btn-block btn-success my-2" type="submit" id="signup-btn">Sign Up</button>
+            <a href="/login" class="my-2">You already have an account? Login here.</a>
+        </form>
+    </div>
+</div>

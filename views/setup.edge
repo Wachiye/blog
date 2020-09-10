@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  	<link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+  	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script src="vendor/jquery/jquery.min.js"></script>
+  	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  	<script src="js/expd.setup.js"></script>
+	<title>Website Setup</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-8 mx-auto">
+				<div class="row">
+					<div class="col-sm12">
+						<p class="lead">Website has no admin users. Create account</p>
+					</div>
+					<!-- create account -->
+					<div class="col-sm-12" id="newaccount">
+						@include('partials.signup')
+					</div>
+					<!-- create account -->
+					<div class="col-sm-12 d-none" id="newlogin">
+						@include('partials.login')
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

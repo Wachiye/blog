@@ -2,38 +2,60 @@
 
 @section("content")
 <div class="row">
-	<div class="col-sm-8 offset-sm-2 text-center text-primary mb-1">
-		<marquee behavior="slide" scrolldelay="2">Programmers are not nerds, don't treat us as one!!</marquee>
+    <div class="col-sm-8 offset-sm-2 text-center">
+        <h2 class="text-muted">Meet The Tech Guys!!</h2>
+        <small class="u-curvy">
+        	<em>Programmers are not nerds, don't treat us as one!!</em>
+        </small>
+    </div>
+</div>
+<!-- about team -->
+<div class="row my-1 text-center">
+	<div class="col-sm-12 col-md-8 text-left">
+		<h3>About The Team</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 	</div>
-	<div class="col mb-1"></div>
+	<div class="col-sm-12 col-md-4">
+		<p class="lead">How we hire? 
+			<a class="call-link" href="#">Click Here</a>
+		</p>
+		<p>Feel free to contact each member individually or contact us 
+			<a href="#">here.</a>
+			<br>
+			Or send us an <a href="mailto:{{info.email}}">email</a>
+		</p>
+	</div>
+</div>
+<hr>
+<!-- team members -->
+<div class="row">
 	@each(member in members)
-	<div class="col-sm-6 col-md-4 col-lg-3 small mb-1">
-		<div class="card p-1 mb-1">
-			<div class="card-img-top text-center">
-				<img src="img/users/{{member.image}}" class="img-circle media-object" width="80px" height="80px">
+	<div class="col-sm-6 col-md-4 member mb-1">
+		<div class="card bg-transparent border-success shadow">
+			<div class="card-img-top d-flex p-1">
+				<img class="img-circle" src="img/users/{{member.image}}" height="100" width="100">
 			</div>
 			<div class="card-body">
+				<h4 class="card-title small text-center">{{member.fullname}}</h4>
+				<h6 class="card-subtitle text-center text-muted small">{{member.specialization}}</h6>
 				<div class="card-text">
-					<h6>
-						<div class="text-center">
-							<span class="text-primary">{{member.fullname}}</span>
-							<div>
-								<span class="text-muted">{{member.specialization}}</span>
-							</div>
-						</div>
-					</h6>
 					<div>
 						<i class="fa fa-thumbs-up"></i>
 						<span class="text-success">{{member.languages}}</span>
 					</div>
 					<div>
-						<div>
+						<div class="small">
 							<i class="fa fa-envelope"></i>
 							<a href="mailto:{{member.email}}">{{member.email}}</a>
 						</div>
-						<div>
+						<div class="small">
 							<i class="fa fa-phone"></i>
-							<a href="mailto:">{{member.phone}}</a>
+							<a href="tel:{{member.phone}}">{{member.phone}}</a>
 						</div>
 					</div>
 				</div>

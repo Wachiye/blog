@@ -1,139 +1,153 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content=" name={{info.author.name}}, email={{info.author.email}}">
-    <title>EXPD:: Admin</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <title>Admin :: {{req.session.page}}</title>
+    <!-- <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+     --><link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
-    @!section("links")
-</head>
-
-<body>
-    <div class="container-fluid">
-        <div class="fixed-bottom back-top"> <a href="#main">&uparrow;</a></div>
-        <div id="float-menu" class="menu" onclick="Toggler()"><i id ="menu-icon" class="fa fa-close"></i></div>
-        <div class="row">
-            <div id="nav" class="p-2 dashboard col-md-2 col-sm-4 col-xs-6" >
-                <div>
-                    <div>
-                        <div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <h4 class="text-center text-muted">Dashboard </h4></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="profile-block">
-                                        <div class="profile-image">
-                                            <img class="img-circle img-responsive" src="img/users/{{req.session.user.image}}" >
-                                        </div>
-                                        <div class="profile-title text-muted">{{req.session.user.fullname}}
-                                        <small>@ {{req.session.user.username}} </h6></small></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="list-unstyled navigation">
-                            <li>
-                                <a href="/dashboard"><i class="fa fa-tachometer"></i> Overview</a>
-                            </li>
-                            <li>
-                                <a href="/"><i class="fa fa-home"></i> View Site</a>
-                            </li>
-                            <li>
-                                <div class="text-muted">Posts </div>
-                                <a href="/create"><i class="fa fa-edit"></i> New Post</a>
-                                <a href="/posts"><i class="fa fa-file-text"></i> View Posts</a>
-                                <a href="/categories"><i class="fa fa-object-group"></i> Categories</a>
-                            </li>
-                            <li>
-                                <div class="text-muted">Comments</div>
-                                @if(unreadComments != 0)
-                                <a href="/unread"><i class="fa fa-comments"></i> Unread<span class="badge pull-right">{{unreadComments || 0}}</span></a>
-                                @endif
-                                <a href="/comments"><i class="fa fa-comments-o"></i> All Comments</a>
-                            </li>
-                            <li>
-                                <div class="text-muted">Members</div>
-                                <a href="/new-member"><i class="fa fa-user-plus"></i> Add Members</a>
-                                <a href="/members"><i class="fa fa-users"></i> Members</a>
-                            </li>
-                            <li>
-                                <div class="text-muted">Audience</div>
-                                <a href="/admins"><i class="fa fa-user-secret"></i> Admins</a>
-                                <a href="/users"><i class="fa fa-users"></i> Users</a>
-                                <a href="/profile"><i class="fa fa-user"></i> My Profile</a>
-                            </li>
-                            <li>
-                                <div class="text-muted">Miscellenious</div>
-                                <a href="/settings"><i class="fa fa-cog"></i> Site Settings</a>
-                                <a href="/logout">
-                                    <i class="fa fa-sign-out"></i> Logout</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div><span class="text-muted">Follow Us</span>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="{{info.facebook}}" target="_BLANK"><i class="fa fa-facebook-square"></i></a></div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><a href="{{info.twitter}}" target="_BLANK"><i class="fa fa-twitter-square"></i></a></div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" ><a href="{{info.github}}" target="_BLANK"><i class="fa fa-github-square"></i></a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="main" class="col-md-10 col-sm-8 col-xs-12">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row header">
-                            <div class=" pull-right" >
-                                <span>
-                                    <i class="fa fa-smile-o"></i> Hi {{req.session.user.username || ''}}, Welcome </span>
-                                <span class="text-danger">
-                                    <a href="/logout">
-                                        <i class="fa fa-sign-out"> Logout</i>
-                                    </a>
-                                </span>
-                            </div>
-                                
-                        </div>
-                        <div class="container-fluid">
-                                @!section("content")
-                                @!section("aside")
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center">
-                                <p class="text-center">Copyright © 2019</p>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-md-offset-0 col-sm-6 col-xs-12 text-center"><a href="mailto:{{info.author.email}}" target="_top">Admin: {{info.author.name}}</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/Chart.bundle.min.js"></script>
+    <script src="js/expd.js"></script>
+    <link rel="icon" type="x-image/ico" href="img/favicon.ico">
+    @!section("links")
+</head>
+<body>
+     <div class="loading d-flex">Loading...</div>
+    <div class="container-fluid admin-panel">
+        <header class="header d-flex-between" id="header">
+            <div id="burger" class="burger" >
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <!-- <div class="d-none d-sm-block">
+                <form class="form-inline">
+                    <input id="search" class="custom-control" type="text" name="search" placeholder="search">
+                    <button>
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </div> -->
+            <div class="pull-right">
+                <img class="img-circle" src="/img/users/{{req.session.user.image}}" width="35px" height="35px">
+                <a href="/logout">Logout</a>
+            </div>
+        </header>
+        <aside id="aside-menu" class="aside-menu d-flex-column">
+            <div id="close-menu" class="div-select text-center"> &times;
+            </div>
+            <div class="d-flex-column">
+                <div class="profile-img d-flex">
+                    <img class="img-circle" src="/img/users/{{req.session.user.image}}" width="45px" height="45px">
+                    <div class="profile-right">
+                        <h5 class="card-title small">{{req.session.user.fullname}}</h5>
+                        <h6 class="card-subtitle small">@ {{req.session.user.username}}</h6>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <ul class="menu d-flex-column">
+                <li class="menu-item">
+                    <a class="menu-link" href="/dashboard">
+                        <i class="fa fa-tachometer"></i>Dashboard
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/">
+                        <i class="fa fa-eye"></i>View Site
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <div class="group-title">Posts</div>
+                    <a class="menu-link" href="/newpost">
+                        <i class="fa fa-edit"></i>New Post
+                    </a>
+                    <a class="menu-link" href="/posts">
+                        <i class="fa fa-file"></i>Posts
+                    </a>
+                    <a class="menu-link" href="/categories">
+                        <i class="fa fa-list"></i>Categories
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <div class="group-title">Messages</div>
+                    <a class="menu-link" href="/comments">
+                        <i class="fa fa-comments-o"></i>Comments
+                    </a>
+                    <a class="menu-link" href="/contacts">
+                        <i class="fa fa-envelope"></i>Contacts
+                    </a>
+                    <a class="menu-link" href="/testimonials">
+                        <i class="fa fa-quote-left"></i>Testimonials
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <div class="group-title">Users</div>
+                    <a class="menu-link" href="/subscribers">
+                        <i class="fa fa-users"></i>Subscribers
+                    </a>
+                    <a class="menu-link" href="/admins">
+                        <i class="fa fa-user-secret"></i>Admins
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <div class="group-title">Teams & Members</div>
+                    <a class="menu-link" href="/new-member">
+                        <i class="fa fa-user-plus"></i>New Member
+                    </a>
+                    <a class="menu-link" href="/members">
+                        <i class="fa fa-users"></i>Members
+                    </a>
+                    <a class="menu-link" href="/teams">
+                        <i class="fa fa-users"></i>Teams
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/profile">
+                        <i class="fa fa-user"></i>Profile
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <div class="group-title">Settings</div>
+                    <a class="menu-link" href="/settings">
+                        <i class="fa fa-cog"></i>Basics
+                    </a>
+                     <a class="menu-link" href="/services">
+                        <i class="fa fa-cog"></i>Services
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/Logout">
+                        <i class="fa fa-sign-out"></i>Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <main id="main" class=" main" >
+            @!section("content")
+        </main>
+        <footer id="footer" class="footer d-flex-between">
+           <p class="small">Designed By 
+                <a href="mailto:{{info.author.email}}">
+                    {{info.author.name}}
+                </a>
+            </p>
+            <p class="small">&copy; Copyright 2020</p>
+        </footer>
+    </div>
     <script>
-        function Toggler(){
-            var nav = document.getElementById("nav")
-            var main = document.getElementById("main")
-            var menu_icon = document.getElementById("menu-icon")
-            nav.classList.toggle("col-md-2")
-            nav.classList.toggle("col-sm-4")
-            nav.classList.toggle("col-xs-6")
-            nav.classList.toggle("hidden")
-            main.classList.toggle("col-md-10")
-            main.classList.toggle("col-sm-8")
-            menu_icon.classList.toggle("fa-bars")
-            menu_icon.classList.toggle("fa-close")
+        var showImage = (fileSource) =>{
+            var imageSource = window.URL.createObjectURL(fileSource);
+            $('#imagePreview').attr('src', imageSource);
         }
+        $('#image').change( function () {
+            showImage(this.files[0]);
+        })
     </script>
     @!section("scripts")
 </body>

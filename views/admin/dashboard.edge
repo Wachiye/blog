@@ -2,122 +2,290 @@
 
 @section("content")
 <div class="row">
-    <div class="col-xs-12 today-stats p-0 mt-1">
-        <div class="card">
-            <div class="card-left">
-                <h4 class="card-heading text-primary">Today's Posts</h4>
-                <p class="card-text text-dark">{{newPosts[0].new_posts | 0}} Posts</p>
-            </div>
-            <div class="card-right text-center">
-                <div><i class="fa fa-file-text"></i></div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="card-footer">
-                <div class="pull-right">
-                    <a href="/posts/today">View</a>
-                </div>
-            </div>
+  <div class="col-sm-12" id="updates">
+    <!-- admin message -->
+    <!-- <div class="card bg-transparent border-info" id="message">
+      <div class="div-select">
+        <div class="close" onclick="$('#message').remove()">&times</div>
+      </div>
+      <div class="card-body">
+        <h4 class="text-primary">Message from Admin</h4>
+        <p class="card-text">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et.
+        </p>
+      </div>
+    </div> -->
+    <!-- other updates -->
+    <div id="other-updates" class="mb-1">
+      <div class="div-select">
+        <span onclick="$('#other-updates').remove()">&times</span>
+      </div>
+      <div class="update">
+        Unread Comments
+        <span id="comments">{{statistics.comments}}</span>
+        <div class="cta">
+          <a href="/comments?view=unread">View</a>
         </div>
-        <div class="card">
-            <div class="card-left">
-                <h4 class="card-heading">Today's New Users</h4>
-                <p class="card-text">{{newUsers[0].new_users | 0}} Users</p>
-            </div>
-            <div class="card-right">
-                <i class="fa fa-users"></i>
-            </div>
-            <div class="clearfix"></div>
-            <div class="card-footer">
-                <div class="pull-right">
-                    <a href="/users/today">View</a>
-                </div>
-            </div>
+      </div>
+      <div class="update">
+        New Contacts
+        <span id="contacts">{{statistics.contacts}}</span>
+        <div class="cta">
+          <a  href="/contacts?view=unread">View</a>
         </div>
-        <div class="card">
-            <div class="card-left">
-                <h4 class="card-heading">Unread Comments</h4>
-                <p class="card-text">{{comments_unread | 0}} Comments</p>
-            </div>
-            <div class="card-right">
-                <i class="fa fa-inbox"></i>
-            </div>
-            <div class="clearfix"></div>
-            <div class="card-footer">
-                <div class="pull-right">
-                    <a href="/unread">View</a>
-                </div>
-            </div>
+      </div>
+      <div class="update">
+        New Subscribers
+        <span>{{statistics.subscribers.length}}</span>
+        <div class="cta">
+          <a  href="/subscribers?view=new">View</a>
         </div>
-        <div class="card">
-            <div class="card-left">
-                <h4 class="card-heading">Today's Quote</h4>
-                <p class="card-text collapse"><blockquote>{{quote}}</blockquote></p>
-            </div>
-            <div class="card-right">
-                <i class="fa fa-quote-right"></i>
-            </div>
-            <div class="clearfix"></div>
-            <div class="card-footer">
-                <div class="pull-right">
-                    <a href="/#quote">View</a>
-                </div>
-            </div>
+      </div>
+    </div>  
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 mb-1">
+    <div class="card-block">
+      <div class="card bg-transparent border-info mb-1">
+        <div class="card-body">
+          <h4 class="card-title">Quick Stats</h4>
+          <div class="card-text">
+            <canvas id="quickStatsChart"></canvas>
+          </div>
         </div>
+      </div>
+       <div class="card bg-transparent border-info mb-1">
+         <div class="card-body">
+           <h4 class="card-title">Page view Stats(critical)</h4>
+           <div class="card-text">
+             <canvas id="pageStatsChart"></canvas>
+           </div>
+         </div>
+      </div>
+      <div class="card bg-transparent border-info">
+         <div class="card-body h-100">
+            <h4 class="card-title">Post Stats</h4>
+            <div class="card-text">
+              <canvas id="postStatsChart"></canvas>
+            </div>
+         </div>
+     </div> 
     </div>
-    <div class="col-xs-12 googl-stats">
-        
+  </div>
+  <div class="col-sm-6 mb-1">
+    <div class="card-block">
+      <!-- real time stats -->
+      <div class="card" id="real-time">
+        <div class="card-body">
+          <h4 class="card-title">Real Time Information</h4>
+          <div class="card-text">
+            <ul class="list-unstyled">
+              <!-- <li>
+                Active Users:
+                <span class="badge bg-warning pull-right" id="active-users"></span>
+              </li> -->
+              <li>
+                Subscribers
+                <span class="badge bg-success pull-right" id="subscribers"></span>
+              </li>
+              <li>
+                Teams
+                <span class="badge bg-info pull-right" id="teams"></span>
+              </li>
+              <li>
+                Team Members
+                <span class="badge bg-success pull-right" id="members"></span>
+              </li>
+              <!-- <li>
+                Session Duration
+                <span class="badge bg-success pull-right" id="session-count">00:01:41</span>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- recent subscribers -->
+      <div class="card" id="recents-subscribers">
+        <div class="card-body">
+          <h4 class="card-title">Recent Subscribers</h4>
+          <div class="card-text">
+            <ul class="list-group list-group-flush">
+              @each(subscriber in statistics.subscribers)
+              <li class="list-group-item">
+                <h5 class="text-primary">{{subscriber.name}}</h5>
+                <h6 class="text-muted">{{subscriber.email}}</h6>
+                <small>
+                  <em>{{subscriber.dateCreated}}</em>
+                </small>
+              </li>
+              @endeach
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- recent posts -->
+      <div class="card" id="recent-posts">
+        <div class="card-body">
+          <h4 class="card-title">Recent Publications</h4>
+          <div class="card-text">
+            <ul class="list-group list-group-flush" id="posts">
+              @each(post in statistics.recentPosts)
+              <li class="list-group-item">
+                <a href="/view={{post.id}}" class="add-view" target="_blank" data-addview="{{post.id}} post {{post.id}}">
+                  <h5 class="text-primary">{{post.title}}</h5>
+                  <small class="text-muted">
+                    <em>{{post.dateCreated}}</em>
+                  </small>
+                </a>
+              </li>
+              @endeach
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 @endsection
 
-@section("aside")
-<div class="well">
-   <h4>All time stats</h4>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <div class="media">
-                <div class="media-left">
-                    <i class="fa fa-users"></i>
-                </div>
-                <div class="media-body">
-                    <h3 class="media-heading mb-2">Users</h3>
-                    <p> {{users[0].all_users | 0 }} Users</p>
-                </div>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div class="media">
-                <div class="media-left">
-                    <i class="fa fa-file-text"></i>
-                </div>
-                <div class="media-body">
-                    <h3 class="media-heading mb-2">Posts</h3>
-                    <p> {{posts[0].posts | 0 }} Posts</p>
-                </div>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div class="media">
-                <div class="media-left">
-                    <i class="fa fa-inbox"></i>
-                </div>
-                <div class="media-body">
-                    <h3 class="media-heading mb-2">Comments</h3>
-                    <p> {{comments | 0 }} Comments</p>
-                </div>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div class="media">
-                <div class="media-left">
-                    <i class="fa fa-eye"></i>
-                </div>
-                <div class="media-body">
-                    <h3 class="media-heading mb-2">Views</h3>
-                    <p> {{views | 0 }} Views</p>
-                </div>
-            </div>
-        </li>
-    </ul>
-</div>
+@section("scripts")
+  <script>
+    $(document).ready( function(){
+      //default chart options
+      var chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false
+      };
+      //default border Width of chart
+      var borderWidth = 1;
+      // var countToTime;
+      //initial the ajax call to server
+      getStats();
+
+      //create an ajax request to the server for chart data
+      function getStats(){
+        var action = '/dashboard';
+        $.ajax({
+          url: action,
+          type: 'GET',
+          dataType: 'json',
+          contentType:'application/json',
+          success: function(data){
+            var quickStatsData = data.quickStats;
+            var pageStatsData = data.pageStats;
+            var postStatsData = data.postStats;
+
+            $('#teams').text(data.teams);
+            $('#members').text(data.members);
+            $('#subscribers').text(data.subscribers.length);
+            $('#contacts').text(data.contacts);
+            $('#comments').text(data.comments);
+
+            quickStats(quickStatsData);
+            pageStats(pageStatsData);
+            postStats(postStatsData);
+
+            // countToTime = data.sessionExpiry;
+           
+          }
+        });
+      }
+
+         // sessionCount(countToTime);
+
+      /*  function sessionCount(toTime){
+          var currentTime = new Date().getTime(); //today's date and time
+          var countToTime = new Date(toTime).getTime(); //date to count down to
+          //update the count down every 1 second
+          var count = setInterval( function(){
+            var timeBetween = countToTime - currentTime; //interval between the dats and times
+            var days = Math.floor(timeBetween / 1000 * 60 * 60 * 24);//get remaining  days
+            var hours = Math.floor( (timeBetween % 1000 * 60 * 60 * 24) / (1000 * 60 * 60));//get remaining hours
+            var minutes = Math.floor( (timeBetween % 1000 * 60 * 60 ) / (1000 * 60 ));
+            var seconds = Math.floor( (timeBetween % 1000 * 60) / 1000 );
+
+            //display the remaining session time
+            $('#session-count').text(days + 'd: ' + hours + 'h: ' + minutes + 'm: ' + seconds + "s");
+
+            //if count down is finished, alert user and redirect to login page
+            if( timeBetween < 0){
+              alert("Your 14 days Session has expired. You will be logout soon.");
+              window.location = '/logout';
+            }
+          }, 1000);
+        }
+      */
+
+      //displays quick stat chart
+      function quickStats(dataIn){
+        var element = 'quickStatsChart';
+        var data = [dataIn.audience, dataIn.views, dataIn.posts, dataIn.comments]
+        var labels = ['Audience', 'Views', 'Posts', 'Comments'];
+        var bgColors = ['green','blue','yellow', 'orange'];
+        var chartData = {
+          labels: labels,
+          datasets : [{
+            label: "Quick Stats",
+            data: data,
+            backgroundColor: bgColors,
+            borderColor: '#222',
+            borderWidth: borderWidth
+          }],
+          options: chartOptions
+        }
+        createChart(element, 'pie', chartData);
+      }
+      //displays page stat chart
+      function pageStats(dataIn){
+        var element = 'pageStatsChart';
+        var data = [] , labels = [];
+       for (var i = dataIn.length - 1; i >= 0; i--) {
+          data.push(dataIn[i].value);
+          labels.push(dataIn[i].name);
+        }
+        var bgColors = ['darkgrey','lightgreen','orange', 'purple','red','crimson'];
+        var chartData = {
+          labels: labels,
+          datasets : [{
+            label: "Page view Stats",
+            data: data,
+            backgroundColor: bgColors,
+            borderColor: '#222',
+            borderWidth: borderWidth
+          }],
+          options: chartOptions
+        }
+        createChart(element, 'bar', chartData);
+      }
+      //displays post stat chart
+      function postStats(dataIn){
+        var element = 'postStatsChart';
+        var data = [dataIn.posts, dataIn.views, dataIn.comments]
+        var labels = ['All Posts', 'Views', 'Comments'];
+        var bgColors = ['green','blue','orange'];
+        var chartData = {
+          labels: labels,
+          datasets : [{
+            label: "All time posts stats",
+            data: data,
+            backgroundColor: bgColors,
+            borderColor: '#222',
+            borderWidth: borderWidth
+          }],
+          options: chartOptions
+        }
+        createChart(element, 'doughnut', chartData);
+      }
+      //creates the chart using the data
+      function createChart(element, chartType, chartData) {
+        let ctx = document.getElementById(element).getContext('2d');
+        let chart = new Chart( ctx, {
+          type: chartType,
+          data:chartData
+        });
+      }
+    });
+  </script>
 @endsection

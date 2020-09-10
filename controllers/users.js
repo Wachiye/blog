@@ -3,133 +3,206 @@ const IMG_DIR = __dirname + "/../public/img/users/"
 const posts = require('./posts')
 const comments = require('./comments')
 
-//get profile
-exports.getProfile = async(req, res) => {
+exports.serveProfilePage = async(req, res) => {
+	req.session.page = 'Profile'
 	//get email from global variable
 	let email = req.session.user.email
 	let sql = `SELECT * FROM users WHERE email like '${email}' `;
 	
-	conn.query(sql, async(err, data) =>{
-		
-		let layout = "layout"
-		let profile = data[0]
-		//get user comments
-		let myComments = await comments.myComments(req, res)
-		//get user posts
-		let myPosts = await posts.getAll(`SELECT id, title, image FROM posts WHERE author = '${req.session.user.username}'`)
-		if(req.session.type == "admin"){
-			layout = "admin/layout"
+	conn.query(sql, async(err, profile) =>{
+		if(err){
+			console.error(err)
+			data = {
+				"type":"danger",
+				"profile":[],
+				"message":{
+					"type":"DB_ERR",
+					"ERR":err.message
+				}
+			}
 		}
-		res.render("profile", {info, layout, req, unreadComments, profile, myComments, myPosts})
+		else
+		{
+			data = {
+				"type":"success",
+				"profile":profile[0]
+			}
+		}
+		if(req.xhr || req.accepts('json,html') === 'json'){
+			res.send(data)
+		}
+		else
+		{
+			res.render("admin/profile", {info, req, profile:profile[0]})
+		}
 	})
-
 }
-//view all users
-exports.allUsers = (sql) => {
-	return new Promise( resolve => {
-		conn.query(sql, (err, data) =>{
-			resolve(data)
-		})
+//edit profile
+exports.editProfile = (req, res) => {
+	var email = req.session.user.email
+	var id = req.session.user.id
+	var data = []
+	let fullname = conn.escape(req.body.fullname),
+		website = conn.escape(req.body.website)
+
+	let sql = `UPDATE users SET fullname = ${fullname}, website =${website}`
+		sql = sql + ` WHERE email ='${email}'`
+
+	conn.query( sql , (err, result)=>{
+		if(err){
+			data = {
+				"type":"danger",
+				"updated":false,
+				"message":{
+					"type":"DB_ERR",
+					"ERR":err.message
+				}
+			}
+		}
+		else
+		{
+			req.session.user.fullname = req.body.fullname
+	 		req.session.user.website = req.body.website
+			data = {
+				"type":"success",
+				"updated":true
+			}
+		}
+
+		if(req.xhr || req.accepts('json,html')==='json')
+		{
+			res.send(data)
+		}
+		else
+		{
+			res.redirect(303, '/profile')
+		}
 	})
+	
 }
-
 exports.changeImage = (req, res)=>{
+	res.setHeader('Content-Type', 'application/json')
 	let image = req.files.image,
 		id = req.session.user.id
 		sql = `UPDATE users SET image='${id}.jpg' WHERE id =${id}`
 	image.mv(IMG_DIR + `${id}.jpg`,(err)=>{
 		conn.query(sql, (err, data)=>{
-			if(!err){
-				req.session.user.image = `${id}.jpg`
+			if(err){
+				console.error(err)
+				data = {
+					"type":"danger",
+					"updated":false,
+					"message":{
+						"type":"DB_ERR",
+						"ERR":err.message
+					}
+				}
 			}
-			else{
-				console.log(err)
+			else
+			{
+				data = {
+					"type":"success",
+					"updated":true
+				}
 			}
-		})
-		res.redirect(301, '/profile')
-	})	
-}
-
-//edit profile
-exports.editProfile = (req, res) => {
-	// retrieve email
-	var email = req.session.user.email
-	var id = req.session.user.id
-
-	//validate inputs
-	if(req.body.fullname == undefined || req.body.website == undefined){
-		errors = "Some field are empty"
-		console.log(req)
-	}
-	else
-	{
-
-		let fullname = conn.escape(req.body.fullname),
-				website = conn.escape(req.body.website)
-
-		let sql = `UPDATE users SET fullname = ${fullname}, website =${website}`
-			sql = sql + ` WHERE email ='${email}'`
-
-		 conn.query( sql , (err, result)=>{
-		 	req.session.user.fullname = req.body.fullname
-		 	req.session.user.website = req.body.website
-			res.redirect(301, "/profile")
-		})
-	}
-	
+			if(req.xhr || req.accepts('json,html') ==='json'){
+				res.send(data)
+			}
+			else
+			{
+				res.redirect(303, '/profile')
+			}		
+		})	
+	})
 }
 
 //change password
 exports.changePassword = async (req, res) =>{
-	//check if passwords fields match
-	let newPassword = req.body.new_password,
-		conPassword = req.body.confirm_password
+	var email = req.session.user.email
+	var oldPassword = req.body.password
+	var new_password = req.body.new_password
+	var valid = await hash.validUser( oldPassword, req.session.user.password)
+	var data = []
 
-	if(newPassword == conPassword){
-		//get old password
-		console.log(newPassword)
-		let oldPassword = req.body.password
+	if(valid){
+		newPassword = await hash.hashPassword(new_password)
 
-		//compare old passsword to password supplied
-		let validUser = await hash.validUser(oldPassword, req.session.user.password)
-		//if passwords match, set password to new password
-		if( validUser){
-			//hash the new password
-			newPassword = await hash.hashPassword(newPassword)
-			let sql = `UPDATE users SET password='${newPassword}' WHERE email ='${req.session.user.email}'`
-			//execute query
-			conn.query( sql, (err, data) =>{
-				//if error occurs, diplay error message
-				if(err){
-					res.redirect(301,"/profile")
-					console.log(err)
+		let sql = `UPDATE users SET password ='${newPassword}'`
+			sql = sql + ` WHERE email ='${email}'`
+
+		conn.query( sql ,async (err, result)=>{
+			if(err){
+				console.error(err)
+				data = {
+					"type":"danger",
+					"updated":false,
+					"message":{
+						"type":"DB_ERR",
+						"ERR":err.message
+					}
 				}
-				else{ // else diplay a success message
-					req.session.user.password = newPassword
-					console.log(data)
-					res.redirect(301,"/profile")
+			}
+			else{
+				data ={
+					"type":"success",
+					"updated":true
 				}
-			})
-		}
-		else{
-			res.send("Passwords dont match")
+			}
+		})
+	}
+	else
+	{
+		data = {
+			"type":"danger",
+			"updated":false,
+			"message":{
+				"type":"PWD_ERR",
+				"ERR":"Old Passwords don't match"
+			}
 		}
 	}
-
+	if(req.xhr || req.accepts('json,html')==='json')
+	{
+		res.send(data)
+	}
+	else
+	{
+		res.redirect(303, '/profile')
+	}
 }
 
-//delete User
+//delete profile
 exports.deleteProfile = (req, res) => {
 	let id = req.session.user.id 
 	let sql = `DELETE FROM users WHERE id = ${id}`
-	conn.query( sql, (err, data)=>{
-		
-			req.session.user = null
-			req.session.loggedIn = false
-			res.redirect(301,'/logout')
+	conn.query( sql, (err, user)=>{
+		if(err){
+			console.error(err)
+			data = {
+				"type":"danger",
+				"deleted":false,
+				"message":{
+					"type":"DB_ERR",
+					"ERR":err.message
+				}
+			}
+		}
+		else
+		{
+			data = {
+				"type":"success",
+				"deleted":true
+			}
+		}
+		if(req.xhr || req.accepts('json,html') ==='json'){
+			res.send(data)
+		}
+		else
+		{
+			res.redirect(303,'/logout')
+		}		
 	})
 }
-
 //change priviledge
 exports.changePriviledge = (req, res) =>{
 	let id = req.params.id
@@ -139,18 +212,134 @@ exports.changePriviledge = (req, res) =>{
 	if(new_role != undefined){
 		let sql = `UPDATE users SET category =${new_role} WHERE id = ${id}`
 		conn.query( sql, (err, result)=>{
-			
-				res.redirect(301, "/users")
-			})
+			res.redirect(301, "/users")
+		})
 	}
 	
 }
+//view all users
+exports.serveUsersPage = (req, res) => {
+	req.session.page = 'Users'
+	let sql = `SELECT * FROM users WHERE category = 'user'`
+	conn.query(sql, (err, users)=>{
+		if(err){
+			console.error(err)
+			data = {
+				"type":"danger",
+				"users":[],
+				"message":{
+					"type":"DB_ERR",
+					"ERR":err.message
+				}
+			}
+		}
+		else{
+			data = {
+				"type":"success",
+				"users":users
+			}
+		}
+		if(req.xhr || req.accepts('json,html') ==='json'){
+			res.send(data)
+		}
+		else{
+			res.render("admin/users",{info, req, users})
+		}
+	})
+}
 
+//view all ADMINS
+exports.serveAdminsPage = (req, res) => {
+	req.session.page = 'Admins'
+	let sql = `SELECT * FROM users WHERE category = 'Administrator'`
+	conn.query(sql, (err, admins)=>{
+		if(err){
+			console.error(err)
+			data = {
+				"type":"danger",
+				"admins":[],
+				"message":{
+					"type":"DB_ERR",
+					"ERR":err.message
+				}
+			}
+		}
+		else{
+			data = {
+				"type":"success",
+				"admins":admins
+			}
+		}
+		if(req.xhr || req.accepts('json,html') ==='json'){
+			res.send(data)
+		}
+		else{
+			//serves the users page but sets users to adimns returned
+			res.render("admin/users",{info, req, users:admins})
+		}
+	})
+}
 //delete user
 exports.deleteUser = (req, res)=>{
 	let id = req.params.id
 	let sql = `DELETE FROM users WHERE id =${id}`
-	conn.query( sql, (err, result)=>{
-			res.redirect(301,"/users")
+	conn.query( sql, (err, user)=>{
+		if(err){
+			console.error(err)
+			data = {
+				"type":"danger",
+				"deleted":false,
+				"message":{
+					"type":"DB_ERR",
+					"ERR":err.message
+				}
+			}
+		}
+		else
+		{
+			data = {
+				"type":"success",
+				"deleted":true
+			}
+		}
+		if(req.xhr || req.accepts('json,html') ==='json'){
+			res.send(data)
+		}
+		else
+		{
+			res.redirect(303,'/users')
+		}
+	})
+}
+//delete user
+exports.deleteUsers = (req, res)=>{
+	let ids = req.params.ids
+	let sql = `DELETE FROM users WHERE id in (${ids})`
+	conn.query( sql, (err, user)=>{
+		if(err){
+			console.error(err)
+			data = {
+				"type":"danger",
+				"deleted":false,
+				"message":{
+					"type":"DB_ERR",
+					"ERR":err.message
+				}
+			}
+		}
+		else
+		{
+			data = {
+				"type":"success",
+				"deleted":true
+			}
+		}
+		if(req.xhr || req.accepts('json,html') ==='json'){
+			res.send(data)
+		}
+		else
+		{
+			res.redirect(303,'/users')
+		}
 	})
 }

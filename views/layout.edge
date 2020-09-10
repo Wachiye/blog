@@ -5,13 +5,17 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="{{info.author}}">
-
-  <title>{{info.title}}</title>
+  @if(view.excerpt != 'undefined')
+  <meta name="description" content="{{view.excerpt}}">
+  @else
+  <meta name="description" content="{{info.site.basic.description}}">
+  @endif
+  <meta name="author" content="{{info.author.name}} <{{info.author.email}}>">
+  <link rel="icon" type="x-image/ico" href="img/{{info.site.basic.favicon}}">
+  <title>{{info.site.basic.title}} : {{req.session.page}}</title>
 
   <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
@@ -22,15 +26,22 @@
   <!-- Custom styles for this template -->
   <link href="css/clean-blog.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
-  <script type="text/javascript" src="js/editor.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="js/expd.js"></script>
 </head>
 
 <body>
-
+    <div class="loading d-flex">
+      Loading...
+    </div>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand" href="/">ExpD</a>
+      <a class="navbar-brand add-view" href="/" data-addview="0 page home">
+        <img src="img/{{info.site.basic.favicon}}" width="30px" height="30px" class="img-circle">
+      </a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
@@ -38,37 +49,31 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link add-view" href="/" data-addview="0 page home">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
+            <a class="nav-link add-view" href="/about" data-addview="0 page about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/contact">Contact Us</a>
+            <a class="nav-link add-view" href="/contact" data-addview="0 page contact">Contact</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/members">Our Team</a>
+            <a class="nav-link add-view" href="/members" data-addview="0 page team">Our Team</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/posts">Posts</a>
+          <li class="nav-item" >
+            <a class="nav-link add-view" href="/posts" data-addview="0 page posts">Posts</a>
           </li>
           @unless(req.session.loggedIn)
             <li class="nav-item">
-              <a class="nav-link" href="/login">Sign in</a>
+              <a class="nav-link" href="/login" >Sign in</a>
             </li>
-            <li class="nav-item">
+             <li class="nav-item">
               <a class="nav-link" href="/signup">Sign Up</a>
             </li>
           @else
-            @if(req.session.type == "user")
-                <li class="nav-item">
-                  <a class="nav-link" href="/profile">Profile</a>
-                </li>
-            @endif
-              <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
-              </li>
-             
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
           @endunless
         </ul>
       </div>
@@ -80,7 +85,7 @@
   <header class="masthead" style="background-image: url('img/home-bg.jpg')" id="top">
   @else
     @if(view.image != 'undefined')
-    <header class="masthead" style="background-image: url('img/posts/{{view.image}}')" id="top">
+    <header class="masthead" style='background: url("img/posts/{{view.image}}") center center fixed; background-size: cover;' id="top">
     @else
     <header class="masthead" style="background-image: url('img/post-bg.jpg')" id="top">
       @endif
@@ -90,14 +95,17 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="site-heading">
-            @unless(view)
-            <h4>{{info.title}}</h4>
-            <span class="subheading">{{info.subtitle}}</span>
-            @else
-            <h4>{{view.title}}</h4>
-            <span class="subheading">{{view.exceprt || ''}}</span>
-            @endunless
+          <div class="page-heading d-flex">
+            <div>
+              @unless(view)
+              <h4>{{info.site.basic.title}}</h4>
+              <span class="subheading">{{ truncate(info.site.basic.subtitle, 40, '...') }}</span>
+              @else
+              <h4>{{view.title}}</h4>
+              <span class="subheading">{{view.excerpt || ''}}</span>
+              @endunless
+            </div>
+            
           </div>
         </div>
       </div>
@@ -105,63 +113,133 @@
   </header>
 
   <!-- Main Content -->
-  <div class="container-fluid mainPanel">
-    <div class="back-top"> 
-      <a href="#main-section">Top</a>
-    </div>
-    <div class="row" id="main-section">
-      <div class=" col-md-12 mainSection" >
+  <main class="container mainPanel">
+   <!--  <div class="back-top"> 
+      <a href="#mainNav">Top</a>
+    </div> -->
+    
 
         @!section("content")
 
         @!section("pager")
         <!-- Pager -->
-      </div>
-    </div>
+     <div class="popup d-none">
+      <div id="popup" class="card">
+          <div class="card-body">
+              <span class="close" onclick="$('.popup').addClass('popup-no')">
+                  &times;
+              </span>
+              <h6 class="card-title">
+                  Stay updated with our most recent newsletters, updates and releases!
+              </h6>
+              <div class="card-text">
+                   <form id="subscriber-form" name="subscriber-form" action="/subscribe" method="POST">
+                    <div class="form-group">
+                      <label for="name">Your Name</label>
+                      <input id="name" class="form-control form-control-sm" type="text" name="name" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email Adress</label>
+                      <input id="email" class="form-control form-control-sm" type="email" name="email" placeholder="Your Email Address">
+                    </div>
+                    <button id="subscribe-btn"  name="subscribe-btn" class="btn btn-dark btn-block" type="submit" value="subscribe">Subcribe</button>
+                  </form>
+              </div>
+          </div>
+      </div>  
   </div>
+  </main>
 
   <hr>
 
   <!-- Footer -->
-  <footer style="height: 50px;">
+  <footer id="footer">
     <div class="container small">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <ul class="list-inline text-center">
-            <li class="list-inline-item">
-              <a href="{{info.facebook}}">
-                <span class="fa-stack fa-sm">
-                  <i class="fa fa-circle fa-stack-2x"></i>
-                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                </span>
+      <div class="row text-center">
+        <!-- logo -->
+        <div class="col-sm-2 logo d-flex">
+          <img src="/img/{{info.site.basic.favicon}}" width="30px" height="30px">
+        </div>
+        <!-- company -->
+        <div class="col-sm-4">
+          <h5>{{info.site.basic.title}}</h5>
+          <h6>{{info.site.basic.subtitle}}</h6>
+          <ul class="list-unstyled">
+            <li>
+              <a href="tel:{{info.site.contacts.phone}}">
+                  <i class="fa fa-phone"></i>
+                  {{info.site.contacts.phone}}
               </a>
             </li>
-            <li class="list-inline-item">
-              <a href="{{info.twitter}}">
-                <span class="fa-stack fa-sm">
-                  <i class="fa fa-circle fa-stack-2x"></i>
-                  <i class="fa fa-facebook-f fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a href="{{info.github}}">
-                <span class="fa-stack fa-sm">
-                  <i class="fa fa-circle fa-stack-2x"></i>
-                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                </span>
+            <li>
+              <a href="mailto:{{info.site.contacts.email}}">
+                  <i class="fa fa-envelope"></i>
+                  {{info.site.contacts.email}}
               </a>
             </li>
           </ul>
-          <p class="copyright text-muted">Copyright &copy; {{info.site}} 2019</p>
+        </div>
+        <!-- media links -->
+        <div class="col-sm-2">
+          <h5>Follow Us</h5>
+          <ul class="list-unstyled">
+            @if(info.site.media)
+            @each(media in info.site.media)
+            <li >
+              <a href="{{media.link}}">
+                <span class="fa-stack fa-sm">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-{{media.name}} fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            @endeach
+            @endif
+          </ul>
+        </div>
+        <!-- other links -->
+        <div class="col-sm-4">
+          <h5>Support</h5>
+          <ul class="list-unstyled">
+              <li>
+                <a href="/about">About Us</a>
+              </li>
+              <li>
+                <a href="/privacy-policy">Privacy Policy</a>
+              </li>
+              <li>
+                <a href="/testimonials">Testimonials</a>
+              </li>
+              <li>
+                <a href="/posts">Blog</a>
+              </li>
+              <li>
+                <a href="/contact">Contact Us</a>
+              </li>
+            </ul>
+        </div>
+        <!-- copyright -->
+        <div class="col-sm-8 mx-auto text-center">
+          Copyright &copy; 2019 - 2020. All rights reserved
         </div>
       </div>
     </div>
   </footer>
+  <script>
+   $(document).ready( function() {
+        var popup = $('#popup');
+        var subcriberForm = $('#subscriber-form');
+        $(this).bind('scroll',showPopup());
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        function showPopup(){
+          function(){
+              popup.parent().toggleClass('d-none');
+              popup.toggleClass('popupDiv');
+              showPopup();
+            } //show popup after 10s
+        }
+    });
+  </script>
   @if(contact)
     <!-- Contact Form JavaScript -->
     <script src="js/jqBootstrapValidation.js"></script>
@@ -171,6 +249,7 @@
     <script src="js/clean-blog.min.js"></script>
   @endif
   
+
   @!section("scripts")
 
 </body>

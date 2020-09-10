@@ -1,0 +1,83 @@
+@layout("admin/layout")
+@section("content")
+<div class="row">
+	<div class="col-sm-12">
+		<div class="pull-left btn-group">
+			<button type="button" id="view-unread" class="btn btn-sm btn-warning" data-group="contact">Pending</button>
+			<button type="button" id="view-all" class="btn btn-sm btn-primary" data-group="contact">All</button>
+		</div>
+		<div class="pull-right btn-group">
+			<button class="btn btn-primary btn-sm mr-1 select-btn" data-select="contacts[]" value="">
+				<i class="fa fa-check" ></i>
+				<span class="badge text-primary bg-light select-value">0</span>
+			</button>
+			<button class="btn btn-primary btn-sm mr-1 unselect-btn d-none" data-select="contacts[]">
+				<i class="fa fa-check"></i>
+				<span class="badge text-primary bg-light select-value">0</span>
+			</button>
+			<button class="btn btn-primary btn-sm bulk-action" data-select="contacts" data-link="read" title="Mark as read">
+				<i class="fa fa-book"></i>
+			</button>
+			<button class="btn btn-success btn-sm bulk-action" data-select="contacts" data-link="reply" title="Broadcast">
+				<i class="fa fa-reply"></i>
+			</button>
+			<button class="btn btn-danger btn-sm bulk-action" data-select="contacts" data-link="del" title="Delete selected items">
+				<i class="fa fa-trash"></i>
+			</button>
+		</div>
+	</div>
+</div>
+<div class="col-sm-12 col-md-10 offset-md-1 my-1">
+	<div class="card-block">
+		<input type="hidden" name="contacts[]" id="contacts[]" class="contacts">
+		@each(contact in contacts)
+		<div class="card shadow contact {{contact.status}}" id="{{contact.id}}" data-group="contact">
+			<div class="div-select">
+				<input type="checkbox" name="contacts[]" id="{{contact.id}}" value="{{contact.id}}" class="contacts select-item">
+			</div>
+			<div class="card-body">
+				<h4 class="card-title">
+				{{contact.fullname}}
+				@if(contact.status == 'read')
+					<span class="text-success">
+						<i class="fa fa-check"></i>
+					</span>
+				@else
+					<span class="text-warning small">
+						(unread)
+					</span>
+				@endif
+				</h4>
+				<h6 class="card-subtitle">
+					Email: {{ contact.email}}
+					<small class="card-subtitle text-muted">
+					 On <time>{{contact.date}}</time>
+				</small>
+				@if(contact.status == 'unread' || contact.status == 'Unread')
+              	<p class="small lead text-bold" id="contact-text-{{contact.id}}">
+                	{{contact.message}}
+                </p>
+                @else
+                <p class="small lead">
+                	{{contact.message}}
+                </p>
+                @endif
+              </p>
+				<div class="card-text">
+					<div class="action-list pull-right">
+						@unless(contact.status == 'read')
+						<a href="/contacts/{{contact.id}}/read">
+							<i class="fa fa-check"></i>
+						</a>
+						@endunless
+						<a href="/contacts/{{contact.id}}/del">
+							<i class="fa fa-remove text-danger"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		@endeach
+	</div>
+</div>
+@endsection

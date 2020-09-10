@@ -1,0 +1,86 @@
+@layout("layout")
+
+@section("content")
+<div class="row">
+    <div class="col-sm-12 text-center">
+         <h4 class="text-muted ">What our clients say</h4>
+         <p>
+         	<i class="fa fa-quote-left"></i>
+         	The voice from people who appreciated our effort in helping them.
+         	<i class="fa fa-quote-right"></i>
+     	</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-8 mb-2">
+    	@if(testimonials.length != 0)
+	      	@each(testimony in testimonials)
+		      	@if(testimony.status != 0)
+		        <div class="card bg-light shadow my-1">
+		          	<div class="card-body">
+			   			<p class="card-text lead">
+			         		<em>{{testimony.testimony}}</em>
+			          	</p>
+			          	@if($loop.isEven)
+			          	<div class="card-text text-right">
+			          	@else
+			          	<div class="card-text text-left">
+			          	@endif
+			          		<h5 class="text-primary">{{testimony.name}}</h5>
+			          		<h6 class="text-success">{{testimony.email}}</h6>
+			          		<h5 class="text-secondary">{{testimony.job}}</h5>
+			          		<h6>{{testimony.company}}</h6>
+			          	</div>
+		      		</div>
+		        </div>
+		        @endif
+		    @endeach
+	    @else
+	    <div class="card bg-light shadow my-1">
+          	<div class="card-body">
+	   			<p class="card-text lead">
+	         		<em>
+	         			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	         			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam est laborum.
+	         		</em>
+	          	</p>
+	          	<div class="card-text text-right">
+	          		<h5 class="text-primary">{{info.author.name}}</h5>
+	          		<h6 class="text-success">{{info.author.email}}</h6>
+	          		<h5 class="text-secondary">Admin</h5>
+	          		<h6>{{info.site.basic.title}}</h6>
+	          	</div>
+	          	<div class="card-link d-flex">
+	          		<a href="#form-testify" class="call-link">Be the first to comment</a>
+	          	</div>
+      		</div>
+        </div>
+        @endif
+    </div>
+   	<div class="col-sm-12 col-md-4 mb-2">
+   		<form id="form-testify" name="form-testify"  action="/testimonials/testify" method="post" role="form">
+            <div class="form-group">
+                <label for="name">Your fullname</label>
+                <input class="form-control form-control-sm" type="text" name="name" id="name" placeholder="Your fullname" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input class="form-control form-control-sm" type="email" name="email" id="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+                <label for="job">Your Job</label>
+                <input class="form-control form-control-sm" type="text" name="job" id="job" placeholder="Your Job Title">
+            </div>
+            <div class="form-group">
+                <label for="company">Your Company</label>
+                <input class="form-control form-control-sm" type="text" name="company" id="company" placeholder="Company you work for">
+            </div>
+            <div>
+                <label for="testimony">Your Testimony</label>
+                <textarea class="form-control form-control-sm" type="p" name="testimony" id="testimony" placeholder="Type Your Testimony here ..." required rows="8"></textarea>
+            </div>
+            <button class="btn btn-sm btn-block btn-success mt-1" type="submit">Send</button>
+        </form>
+   	</div>
+</div>
+@endsection

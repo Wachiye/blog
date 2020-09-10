@@ -2,26 +2,23 @@
 
 @section("content")
     <div class="row">
-        <div class="col-sm-8  offset-sm-2 col-md-6 offset-md-3">
+        <div class="col-sm-12 mb-2">
+            <h5 class="text-muted">Fill the form bellow, hit the send button and our team will respond to you as soon as possible</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
             <h3>Contact Us</h3>
             <form  action="/contact" method="post" role="form">
-                <div class="form-group my-2">
-                    <h5 class="text-muted">Fill the form bellow, hit the send button and our team will respond to you as soon as possible</h5>
-                    @if(errors)
-                    <h6 class='text-danger'>{{errors}}</h6>
-                    @else if (message)
-                    <h6 class='text-success'>{{message}}</h6>
-                    @endif
-                </div>
-                <div class="form-group my-2">
+                <div class="form-group">
                     <label for="firstname">First name</label>
                     <input class="form-control form-control-sm" type="text" name="firstname" id="firstname" placeholder="First Name" required>
                 </div>
-                <div class="form-group my-2">
+                <div class="form-group">
                     <label for="lastname">Last name</label>
                     <input class="form-control form-control-sm" type="text" name="lastname" id="lastname" placeholder="Last Name" required>
                 </div>
-                <div class="form-group my-2">
+                <div class="form-group">
                     <div class="form-group my-2">
                     <label for="email">Email</label>
                     <input class="form-control form-control-sm" type="email" name="email" id="email" placeholder="Email" required>
@@ -29,8 +26,31 @@
                     <label for="message">Your Message</label>
                     <textarea class="form-control form-control-sm" type="p" name="message" id="message" placeholder="Type Your Message here ..." required rows="8"></textarea>
                 </div>
-                <button class="btn btn-sm btn-block btn-success my-2" type="submit">Send</button>
+                <button class="btn btn-sm btn-block btn-success" type="submit">Send</button>
             </form>
+        </div>
+        <div class="col-sm-12 col-md-6 text-center">
+            <h3 class="my-1">Contacts</h3>
+            <address>
+                Baraka Plaza, 2<sup>nd</sup> Floor<br>
+                Room S2 <br>
+                Opposite some place <br>
+                23999-8900<br>
+                Nakuru, Kenya
+            </address>
+            <div id="map">
+                Map here
+            </div>
+            <div>
+                <a href="#">
+                    <i class="fa fa-phone"></i> {{info.phone || '(000)-0000-000-000'}}
+                </a>
+            </div>
+            <div>
+                <a href="#">
+                    <i class="fa fa-envelope"></i> {{info.email}}
+                </a>
+            </div>
         </div>
     </div>
 @endsection

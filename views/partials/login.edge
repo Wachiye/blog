@@ -1,0 +1,25 @@
+<div id="login-form" class=" p-2 m-auto col-md-4 login-card" >
+    <form id="login-form" class="form m-2 p-0" action="/login" method="post" name="login-form">
+        <div class="form-group my-2 text-center">
+            <h2>
+                <img  class="img-circle profile-img-card" src="img/person.png" alt="" height="70px" width="70px"> <br>
+                <span class="text-info "><strong>Login</strong></span>
+            </h2>
+        </div>
+        <div class="form-group mb-2">
+            <input class="form-control form-control-sm" type="text" 
+            name="username" id="username" placeholder="Username" required autofocus>
+        </div>
+        <div class="form-group mb-2">
+            <input class="form-control form-control-sm" type="password" 
+            name="password" id="password" placeholder="Password" required>
+        </div>
+        <button class="btn btn-primary btn-block btn-sm mb-2" type="submit" id="login-btn">
+        	<span class="spinner-grow spinner-grow-sm"></span>Sign In
+        </button>
+        <p class="small">
+            Don't have an account? 
+            <a href="/signup">Get Started</a>
+        </p>
+    </form>
+</div>

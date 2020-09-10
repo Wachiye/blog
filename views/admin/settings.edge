@@ -1,86 +1,223 @@
 @layout("admin/layout")
 
-@section("links")
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css" rel="stylesheet">
-@endsection
 @section("content")
 <div class="row">
-	<div class="col-sm-6">
-	
-		<form role="form" method="POST" action="/settings/update">
-		<fieldset>
-			<legend>Basics</legend>
-			<div class="form-group">
-				@if($errors)
-				<div class="alert alert-danger" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    	<span aria-hidden="true">×</span>
-                    </button>
-                    <p>{{errors}}</p>
-                </div>
-				@endif
-			</div>
-			<div class="form-group">
-				<label for="title">Site Title</label>
-				<input type ="text" class="form-control form-control-sm" name="title" placeholder="Site Title"  value ="{{info.title}}" required />
-			</div>
-			<div class="form-group">
-				<label for="sub_title">Site Sub-Title</label>
-				<input type="text" class="form-control form-control-sm" name="sub_title" placeholder="Site Sub Title" value="{{info.subtitle}}"required />
-			</div>
-			<div class="form-group">
-				<label for="email">Site's Primary Email</label>
-				<input type="email" class="form-control form-control-sm" name="email" placeholder="Site's Primary Email" value="{{info.email || ''}}" required />
-			</div>
-		</fieldset>
-		<fieldset>
-			<legend>Social Accounts</legend>
-			<div class="form-group">
-				<label for="facebook">Facebook</label>
-				<input type="url" class="form-control form-control-sm" name="facebook" placeholder="Facebook Link" value="{{info.facebook}}"required />
-			</div>
-			<div class="form-group">
-				<label for="github">Github</label>
-				<input type="url" class="form-control form-control-sm" name="github" placeholder="Github Link" value="{{info.github}}" required />
-			</div>
-			<div class="form-group">
-				<label for="twitter">Twitter</label>
-				<input type="url" class="form-control form-control-sm" name="twitter" placeholder="Twitter Link" value="{{info.twitter}}" required />
-			</div>
-		</fieldset>
-		<div class="form-group">
-			<button type="submit" class="btn btn-sm btn-success">Update Settings</button>
-		</div>
-		</form>
-	</div>
-	<div class="col-sm-6">
-		<form>
-			<div class="form-group">
-				<label for="about">About Text</label>
-				 <textarea id="summernote-about" class="form-control form-control-sm p-2 mt-1" cols="100%" rows="5%"
-         		name="about" spellcheck  placeholder="About text in html formart" disabled></textarea>
-			</div>
-			<div class="form-group">
-				<button class="btn btn-success" type="submit" disabled>Update</button>
-			</div>
-		</form>
-		<div class="clearfix"></div>
-		<form class="form-inline">
-			<div class="form-group">
-				<input type="text" name="service" class="form-control form-control-sm" placeholder="Add a new service" disabled>
-				<button class="btn btn-success" type="submit" disabled>Add</button>
-			</div>
-		</form>
+	<div class="col-sm-12">
+		<h3>Manage your Website settings</h3>
 	</div>
 </div>
-@endsection
+<!-- basic settings and favicon -->
+<div class="row">
+	<div class="col-sm-12">
+		<h3>Basics</h3>
+		<p class="text-info">Includes Website's title, subtitle/trade mark, description and favicon</p>
+	</div>
+	<div class="col-sm-12">
+		<form name="form-basic-settings" id="form-basic-settings" action="/settings/basic" method="POST">
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="title">Title</label>
+					<input type="text" class="form-control form-control-sm" id="title" name="title" placeholder="Your Website's title" value="{{settings.basic.title || ''}}" required>
+					<span class="form-text small text-muted">A good website title should less than 10 words long.</span>
+				</div>
+				<div class="col-sm-6">
+					<label for="title">Subtitle/trade mark</label>
+					<input type="text" class="form-control form-control-sm" id="subtitle" name="subtitle" placeholder="Your Website's subtitle" value="{{settings.basic.subtitle || ''}}">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<label for="description">Description</label>
+					<textarea id="description" name="description" class="form-control form-control-sm" rows="7" placeholder="Your Website's description">{{settings.basic.description || ''}}</textarea>
+					<span class="form-text small text-muted">A good website description should not be more than 100 charaters long.</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<button type="submit" class="btn btn-sm btn-success my-1" id="basic-settings-btn" value="basic-settings">Save Changes</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-sm-4">
+		<form id="form-favicon-settings" name="form-favicon-settings" action="/settings/favicon" method="POST" enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-sm-12 d-flex">
+					<img src="img/{{settings.basic.favicon || ''}}" id="imagePreview" width="100" height="100">
+				</div>
+				<div class="col-sm-12">
+					<label for="image">Favicon</label>
+					<input type="file" name="image" id="image" accept="image/*">
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<button type="submit" class="btn btn-primary btn-sm my-1">Upload Favicon</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<hr>
+	<div class="col-sm-12">
+		<div class="p-2">
+			<div class="form-group">
+				<label>Services Description(General)</label>
+				<textarea id="services-description" name="services-description" class="form-control form-control-sm" rows="7" >{{settings.basic.services_description || ''}}</textarea>
+				<span class="form-text text-info">A general description of your services. This text will be displayed just before the services on the home and about pages</span>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-sm btn-success" type="button" id="services-btn">Save</button>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12">
+		<div class="p-2">
+			<div class="form-group">
+				<label>Your Mission Statement</label>
+				<textarea id="mission" name="mission" class="form-control form-control-sm" rows="7" >{{settings.basic.mission || ''}}</textarea>
+				<span class="form-text text-info">Tells why you are in the business</span>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-sm btn-success" type="button" id="mission-btn">Save</button>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12">
+		<div class="p-2">
+			<div class="form-group">
+				<label>Your Team Description</label>
+				<textarea id="teams_description" name="teams_description" class="form-control form-control-sm" rows="7" >{{settings.basic.team_description || ''}}</textarea>
+				<span class="form-text text-info">A general description of your team members. This text will be displayed just before the team members on the about page</span>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-sm btn-success" type="button" id="teams-desc-btn">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+<hr>
+<!-- contacts  and social media links-->
+<div class="row">
+	<div class="col-sm-12">
+		<h3>Contacts</h3>
+		<p class="text-info">Includes Website's email, phone, and social media accounts</p>
+	</div>
+	<div class="col-sm-6">
+		<form id="form-contacts-settings" name="form-contacts-settings" action="/settings/contacts" method="POST">
+			<div class="row">
+				<div class="col-sm-12">
+					<label for="email">Email</label>
+					<input type="email" class="form-control form-control-sm" id="email" name="email" placeholder="Website's primary email address" required value="{{settings.contacts.email || ''}}">
+				</div>
+				<div class="col-sm-12">
+					<label for="phone">Phone</label>
+					<input type="tel" class="form-control form-control-sm" id="phone" name="phone" placeholder="Website's primary Phone Number" required value="{{settings.contacts.phone || ''}}">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<button type="submit" class="btn btn-sm btn-success my-1">Save</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-sm-6">
+		<form id="form-media-settings" name="form-media-settings" action="/settings/media" method="POST">
+			<div class="row">
+				<div class="col-sm-12">
+					<label for="medianame">Media</label>
+					<input type="text" name="medianame" id="medianame" class="form-control form-control-sm" placeholder="Media name eg Twitter">
+				</div>
+				<div class="col-sm-12">
+					<label for="medialink">Media link</label>
+					<input type="url" name="medialink" id="medialink" class="form-control form-control-sm" placeholder="Media link eg https://www.twitter.com/j_wachiye">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<button type="submit" class="btn btn-sm btn-primary my-1" id="media-btn" name="media">Save Media Link</button>
+				</div>
+			</div>
+		</form>
+		<div class="my-1">
+			@if(settings.media.length == 0)
+			<h6>Your media links will appear here</h6>
+			@else
+			<h6>Your media links</h6>
+			<ul class="list-inline">
+				@each(media in settings.media)
+				<li class="list-inline-item bg-secondary rounded text-light p-1 mb-1" title="{{media.link}}">
+					<a href="{{media.link}}" target="_blank" class=" text-light fa fa-{{media.name}}"></a>
+					<a class="pull-right ml-1 bg-light text-danger fa fa-trash" href="/settings/media/{{media.name}}/del"></a>
+				</li>
+				@endeach
+			</ul>
+			@endif
+		</div>
+	</div>
+</div>
+<hr>
+<!-- advanced settings -->
+<div id="advanced" class="advanced d-none">
+	<!-- comments -->
+	<div class="row">
+		<div class="col-sm-12">
+			<h3>Comments</h3>
+			<p class="text-info">Includes who can comment and comment moderation</p>
+		</div>
+		<div class="col-sm-12">
+			<label>Who can comment</label>
+			<div class="form-group">
+				<div class="group">
+					<select class="form-control form-control-sm group-left" id="commenters" name="commenters">
+						<option value="anyone">Anyone</option>
+						<option value="loggedin">Logged in</option>
+					</select>
+					<button id="commenters-btn" class="btn btn-sm group-right btn-primary">Save</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<label>Comment Moderation</label>
+			<span class="form-text small text-info">If Turned On (by default), admins have the privillage to moderate and approve a comment before displayed on posts</span>
+			<div class="form-group">
+				<div class="group">
+					<select class="form-control form-control-sm group-left" id="moderation" name="moderation">
+						<option value="on">On</option>
+						<option value="off">Off</option>
+					</select>
+					<button id="moderation-btn" class="btn btn-sm group-right btn-primary">Save</button>
+				</div>
+				
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<label>Comment form message</label>
+			<textarea class="form-control form-control-sm" id="comment-text" name="comment-text" placeholder="Text to be displayed when a reader comments on a post" rows="5"></textarea>
+			<span class="form-text small text-info">This message is displayed as the response upon submition of a comment</span>
+		</div>
+	</div>
+	<hr>
+	<!-- Notifications -->
+	<div class="row">
+		<div class="col-sm-12">
+			<h3>Notifications</h3>
+			<p class="text-info">Includes Post publishing notifications</p>
+		</div>
+		<div class="col-sm-12">
+			<label>Email posts to</label>
+			<select class="form-control form-control-sm" id="email-posts" name="email-posts">
+				<option value="all">All Users</option>
+				<option value="subscribers">Subscribers</option>
+				<option value="admins">Admins</option>
+				<option value="subscribers_admins">Subscribers & Admins</option>
+				<option value="none">None</option>
+			</select>
+			<span class="form-text small text-info">Whenever you publish a new post, an email will be sent to the addresses of the specified group. 
+				<strong>Currently not supported.</strong>
+			</span>
+		</div>
+	</div>
+</div>
 
-@section("scripts")
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
-<script>
-  $('#summernote').summernote({
-    placeholder: 'About Text Here in html',
-    tabsize: 2
-  });
-</script>
 @endsection

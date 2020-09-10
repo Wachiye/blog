@@ -1,0 +1,183 @@
+@layout("layout")
+@section("content")
+<div class="row">
+  <div class="col-sm-12 col-md-8">
+    @if( view != null)
+    <div class="card bg-transparent border-light">
+      <h3 class="card-title">{{view.title}}</h3>
+      <div class="card-body">
+        <p class="card-text small text-muted">{{view.excerpt}}</p>
+        <p class="card-text">
+          <span class="text-muted pull-right">
+            <em>Modified:{{view.dateCreated}}</em>
+          </span>
+        </p>
+        <p class="card-text">
+          <span>
+            <i class="fa fa-eye"></i> 
+             {{view.views}}
+          </span>
+          <span class="ml-1">
+            <i class="fa fa-comments"></i> 
+             {{postComments.length}}
+          </span>
+        </p>
+        <hr>
+        <div class="card-text">
+          {{{view.content}}}
+        </div>
+        @if(postComments.length > 0)
+        <div class="card-text">
+          <h5 class="text-muted">What people are saying</h5>
+          <ul class="list-group list-group-flush">
+            @each(comment in postComments)
+            <li class="list-group-item">
+              <div class="media">
+                <div class="media-left d-flex">
+                  <img src="img/person.png" class="img-circle media-object" width="35px" height="35px">
+                </div>
+                <div class="media-body">
+                  <h6 class="media-heading text-primary">
+                    {{comment.username}}
+                  </h6>
+                  <ul class="list-inline">
+                    <li class="list-inline-item">
+                      <i class="fa fa-envelope"></i>
+                      <a href="mailto:{{comment.email}}">
+                        {{comment.email}}
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="fa fa-globe"></i>
+                      <a href="{{comment.website}}">
+                        {{comment.website}}
+                      </a>
+                    </li>
+                  </ul>
+                  <p class="text-muted small">
+                    <em>
+                      {{comment.date}}
+                    </em>
+                  </p>
+                  <p class="small lead">
+                    {{comment.comment}}
+                  </p>
+                </div>
+              </div>
+            </li>
+            @endeach
+          </ul>
+        </div>
+        @endif
+        <div class="card-text text-center">
+          <p class="lead text-muted">The End!! Thanks for reading...</p>
+          <button class="call-btn" type="button" name="toggle-comment" id="toggle-comment">Leave a comment</button>
+        <form id="form-comment" name="form-comment" class="form text-left d-none" role="form" action="/posts/{{view.id}}/comment" method="post">
+        @if(!req.session.user)
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control form-control-sm" type="text" id="username" name="username">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control form-control-sm" type="email" id="email" name="email">
+          </div>
+          <div class="form-group">
+            <label for="website">Website</label>
+            <input class="form-control form-control-sm" type="link"  id="website" name="website">
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="addme" name="addme" value="addme" checked>Add me to subsribers/newletter list
+            </label>
+          </div>
+          @else
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control form-control-sm" type="text" id="username" name="username" value="{{req.session.user.username || ''}}">
+          </div>
+          @endif
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control form-control-sm" id="message" name="message" rows="5" placeholder="Your Message"></textarea>
+          </div>
+          <div class="form-group text-center">
+            <button class="btn btn-primary btn-sm" type="submit" id="comment-btn" name="comment" value="comment">Comment</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+    @else
+      <div class="d-flex">
+        <h4>NO POSTS YET!!</h4>
+      </div>
+    @endif
+  </div>
+  <div class="col-sm-12 col-md-4">
+    <div class="card bg-transparent border-info rounded mb-2">
+      <div class="card-body">
+        <h5>Stay updated with our most recent posts and releases!</h5>
+        <form id="subscriber-form" name="subscriber-form" action="/subscribe" method="POST">
+          <div class="form-group">
+            <input id="name" class="form-control form-control-sm" type="text" name="name" placeholder="Your Name">
+          </div>
+          <div class="form-group">
+            <input id="email" class="form-control form-control-sm" type="email" name="email" placeholder="Your Email">
+          </div>
+          <button id="subscribe-btn"  name="subscribe-btn" class="btn btn-dark btn-sm" type="submit" value="subscribe">Subcribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="card bg-danger border-dark text-light rounded mb-2">
+      <div class="card-body">
+        <h5>Do you need a blog/website?</h5>
+        <a class="card-link call-link" href="#">Click Here</a>
+      </div>
+    </div>
+    <div class="card bg-transparent">
+      <div class="card-body">
+        <h5 class="card-title text-primary">Other Posts</h5>
+        <div class="card-text">
+          <ul class="list-group list-group-flush">
+            @if( posts.length == 0)
+                <li class="list-group-item">No other posts</li>
+            @else
+              @each( post in posts)
+              <li class="list-group-item">
+                @if(post.id == view.id)
+                <a href="/view={{post.id}}" class="d-none">{{post.title}}</a>
+                @else
+                <a href="/view={{post.id}}" class="add-view" data-addview="{{post.id}} post {{post.id}}">{{post.title}}</a>
+                @endif
+              </li>
+              @endeach
+            @endif
+          </ul>
+        </div>
+      </div>
+    </div>
+     <div class="card bg-transparent">
+      <div class="card-body">
+        <h5 class="card-title text-primary">View by Category</h5>
+        <div class="card-text">
+          <ul class="list-group list-group-flush">
+            @if(postCategories.length == 0)
+                <li class="list-group-item">No Post categories yet</li>
+            @else
+              @each(cat in postCategories)
+              <li class="list-group-item">
+                <a href="/posts?category={{cat.name}}" id="filter-category" class="add-view" data-addview="0 page posts" >{{cat.name}}</a>
+              </li>
+              @endeach
+              <li class="list-group-item">
+                <a href="/posts">All Posts</a>
+              </li>
+            @endif
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection

@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS `blog` DEFAULT CHARACTER SET utf8 ;
+
+SET default_storage_engine = INNODB;

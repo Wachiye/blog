@@ -7,10 +7,8 @@ exports.validUser = (password, hashedPassword) =>{
         bcryptjs.compare(password, hashedPassword, (err, res) => {
             //passwords don't match
             if(err || !res){
-                console.log(password, hashedPassword)
                 resolve(false)
             }else{ //passwords match
-                console.log(password, hashedPassword)
                 resolve(true)
             }
         })

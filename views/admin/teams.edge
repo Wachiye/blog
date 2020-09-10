@@ -1,0 +1,104 @@
+@layout("admin/layout")
+
+@section("content")
+<div class="row ">
+	<div class="col-sm-12 col-md-8">
+		@if(teams.length == 0)
+		<div class="card bg-danger text-light shadow">
+			<div class="card-body">
+				<h4 class="card-title">Opps!!</h4>
+				<p class="card-text">
+					It seems there are no teams yet. 
+					<a href="#teams-form" class="card-link call-link">Add new team(s)</a>
+				</p>
+			</div>
+		</div>
+		@else
+		<div class="card bg-transparent">
+			<div class="card-header">
+				<h6>Your Teams
+					<a href="#teams-form" id="a-teams-form" class="card-link call-link pull-right">
+						<i class="fa fa-plus"></i>
+					</a>
+				</h6>
+			</div>
+			<div class="card-body">
+				<div class="card-text">
+					<ul class="list-group list-group-flush">
+						@each(team in teams)
+						<li class="list-group-item">
+							{{team.name}}
+							<div class="pull-right">
+								<i class="fa fa-users"></i><span class="badge">{{team.members}}</span>
+								<button class="collapse-btn btn-dark text-light" data-collapse="{{team.id}}">
+									<i class="fa fa-caret-down"></i>
+								</button>
+							</div>
+							<div id="{{team.id}}" class="d-none">
+								<ul class="list-unstyled">
+									<li>
+										<strong>Members</strong> <br>
+										 {{team.members}}
+									</li>
+									<li>
+										<strong>Admin</strong> <br>
+										{{team.admin}}
+									</li>
+									<li>
+										<strong>Description</strong> <br>
+										{{team.description}}
+									</li>
+									<li>
+										<strong>Hiring Protocol</strong> <br>
+										{{team.hiring}}
+									</li>
+								</ul>
+							</div>
+						</li>
+						@endeach
+					</ul>
+				</div>
+			</div>
+		</div>
+		@endif
+	</div>
+	<div class="col-sm-12 col-md-4">
+		<div class="card bg-tranparent border-info">
+			<div class="card-body">
+				<h5 class="card-title">Add/Update Teams</h5>
+				<div class="card-text">
+					<form id="teams-form" name="teams-form" action="/teams" method="POST">
+						<div class="form-group" id="toggle-items">
+							<label>Team Name</label>
+							@if(teams.length == 0)
+							<input type="text" name="name" id="name" class="form-control form-control-sm" placeholder="Add new Team Name">
+							@else
+							<select class="form-control form-control-sm" name="name" id="name">
+								@each(team in teams)
+								<option value="{{team.id}}">{{team.name}}</option>
+								@endeach
+							</select>
+							@endif
+						</div>
+						<div class="form-group">
+							<label for="description">Description</label>
+	                        <textarea class="form-control form-control-sm" name="description" id="description" rows="8" placeholder="Description" maxlength="500" ></textarea>
+						</div>
+						<div class="form-group">
+							<label for="hiring">How do you hire?</label>
+	                        <textarea class="form-control form-control-sm" name="hiring" id="hiring" rows="8" placeholder="Explain your hiring procedure, html content is allowed"></textarea>
+						</div>
+						<div class="form-group">
+							<div class="btn-group pull-right">
+								<button type="submit" id="addteam-btn" name="addteam" class="btn btn-sm btn-primary mr-1" value="updateteam" disabled>Add</button>
+								<button type="button" id="updateteam-btn" name="updateteam" class="btn btn-sm btn-success" value="updateteam">Update</button>
+							</div>
+						</div>
+					</form>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+@endsection
+

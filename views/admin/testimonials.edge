@@ -1,0 +1,87 @@
+@layout("admin/layout")
+@section("content")
+<div class="row">
+	<div class="col-sm-12">
+		<div class="pull-left btn-group">
+			<button type="button" id="view-unread" class="btn btn-sm btn-warning" data-group="testimonial">Pending</button>
+			<button type="button" id="view-all" class="btn btn-sm btn-primary" data-group="testimonial">All</button>
+		</div>
+		<div class="pull-right btn-group">
+			<button class="btn btn-primary btn-sm mr-1 select-btn" data-select="testimonys[]" value="">
+				<i class="fa fa-check" ></i>
+				<span class="badge text-primary bg-light select-value">0</span>
+			</button>
+			<button class="btn btn-primary btn-sm mr-1 unselect-btn d-none" data-select="testimonys[]">
+				<i class="fa fa-check"></i>
+				<span class="badge text-primary bg-light select-value">0</span>
+			</button>
+			<button class="btn btn-primary btn-sm bulk-action" data-select="testimonials" data-link="read" title="Mark as read">
+				<i class="fa fa-book"></i>
+			</button>
+			<button class="btn btn-success btn-sm bulk-action" data-select="testimonials" data-link="approve" title="Approve selected items">
+				<i class="fa fa-check"></i>
+			</button>
+			<button class="btn btn-danger btn-sm bulk-action" data-select="testimonials" data-link="del" title="Delete selected items">
+				<i class="fa fa-trash"></i>
+			</button>
+		</div>
+	</div>
+</div>
+<div class="col-sm-12 col-md-10 offset-md-1 my-1">
+	<div class="card-block">
+		<input type="hidden" name="testimonials[]" id="testimonials[]" value="">
+		@each(testimony in testimonials)
+		<div class="card shadow testimonial {{testimony.status}}" id="{{testimony.id}}" data-group="testimonial">
+			<div class="div-select">
+				<input type="checkbox" name="testimonial[]" id="{{testimony.id}}" value="{{testimony.id}}" class="testimonys select-item">
+			</div>
+			<div class="card-body">
+				<div class="media">
+	                <div class="media-left d-flex">
+	                  <img src="img/person.png" class="img-circle media-object" width="35px" height="35px">
+	                </div>
+	                <div class="media-body">
+	                  <h6 class="media-heading text-primary">
+	                    {{testimony.name}} 
+	                    <a href="maito:{{testimony.email}}" class="small text-info">
+		                    {{testimony.email}}
+		                </a>
+	                  </h6>
+	                  <ul class="list-inline">
+	                    <li class="list-inline-item">
+	                      {{testimony.job}}
+	                    </li>
+	                    <li class="list-inline-item">
+	                      {{testimony.company}}
+	                    </li>
+	                  </ul>
+	                  @if(testimony.status == 0)
+	                  <p class="small lead text-bold" id="testimonial-text-{{testimony.id}}">
+	                    	{{testimony.testimony}}
+	                    </p>
+	                    @else
+	                    <p class="small lead">
+	                    	{{testimony.testimony}}
+	                    </p>
+	                    @endif
+	                  </p>
+	                </div>
+	            </div>
+				<div class="card-text">
+					<div class="action-list pull-right">
+						@unless(testimony.status == 1)
+						<a href="/testimonials/{{testimony.id}}/approve">
+							<i class="fa fa-check"></i>
+						</a>
+						@endunless
+						<a href="/testimonials/{{testimony.id}}/del">
+							<i class="fa fa-remove text-danger"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		@endeach
+	</div>
+</div>
+@endsection

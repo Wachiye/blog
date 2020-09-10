@@ -1,0 +1,26 @@
+<form id="form-services" name="form-services" action="/services" method="POST" enctype="multipart/form-data" >
+	<div class="form-group">
+		<label for="image">Display Image</label>
+		<img src="" id="preview" name="preview" width="100" width="100">
+		<input type="file" name="image" id="image" accept="image/*">
+	</div>
+	<div class="form-group">
+		<label for="name">Service Name</label>
+		<input type="text" name="name" id="name" class="form-control form-control-sm" placeholder="Your service Name">
+	</div>
+	<div class="form-group">
+		<label for="description">Service Description</label>
+		<textarea id="service_description" name="description" class="form-control form-control-sm" rows="7"></textarea>
+	</div>
+	<div class="form-group">
+		<label for="level">Service Level</label>
+		<select>
+			<option>Important</option>
+			<option>Normal</option>
+		</select>
+		<span class="form-text">Services marked as important will be listed first</span>
+	</div>
+	<div class="form-group">
+		<button class="btn btn-block btn-sm btn-primary" type="submit">Save</button>
+	</div>
+</form>

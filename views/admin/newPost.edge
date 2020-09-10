@@ -4,63 +4,84 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css" rel="stylesheet">
 @endsection
 @section("content")
-<h3 class="text-center text-muted">Create New Post</h3>
-<form id="form-newpost" class="form" action="/create" method="post"  encType="multipart/form-data">
-    <div class="form-group pull-right">
-        <button class="btn btn-primary btn-small mr-1" type="submit">
-            <i class="fa fa-send"> Post</i>
-        </button>
-        <button class="btn btn-primary">
-            <i class="fa fa-eye"> Preview</i>
-        </button>
+<div class="row">
+    <div class="col-sm-12">
+        @if(post)
+        <h3 class="text-center text-muted">
+            {{post.title}}
+        </h3>
+        @else
+        <h3 class="text-center text-muted">Create New Post</h3>
+        @endif
     </div>
-    <div class="clearfix"></div>
-    <div class="form-group">
-        <label for="title">Post Title</label>
-        <h6 class="small text-muted "><em>Title should not be more then 10 words</em></h6>
-        <input class="form-control form-control-sm text-center" 
-            type="text" name="title" id="title" placeholder="Post Title" data-max-words="10" >
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        @if(post)
+        <form id="newpost-form" name="newpost-form" class="form" action="/savepost?action=edit&id={{post.id}}" method="post"  encType="multipart/form-data">
+        @else
+        <form id="newpost-form" name="newpost-form" class="form" action="/savepost" method="post"  encType="multipart/form-data">
+        @endif
+            <div class="row">
+                <div class="col-sm-12 col-md-8">
+                    <div class="form-group">
+                        <label for="title">Post Title</label>
+                        <input class="form-control form-control-sm" type="text" name="title" id="title" placeholder="Post Title" value="{{post.title || ''}}">
+                    </div>
+                    <div class="form-group" id="post-content">
+                        <label for="content"> Post Content</label>
+                        <textarea id="content" class="form-control form-control-sm p-2 mt-1" cols="100%" rows="25%" name="content" spellcheck placeholder="Post content here... html allowed">{{post.content || ''}}</textarea>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select name="category" id="category" class="form-control form-control-sm">
+                            @each(category in categores)
+                                @if(category.name == post.category)
+                                <option value="{{category.name}}" selected>{{category.name}}</option>
+                                @else
+                                <option value="{{category.name}}">{{category.name}}</option>
+                                @endif
+                            @endeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Tags</label>
+                        <input class="form-control form-control-sm" type="text" name="tags" id="tags" placeholder="Post Tags" value="{{post.tags ||''}}">
+                        <span class="form-text small text-info">Seperate each tag with a comma</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="excerpt">Excerpt</label>
+                        <textarea class="form-control form-control-sm" name="excerpt" id="excerpt" rows="8" placeholder="Excerpt" maxlength="500">{{post.excerpt || ''}}"</textarea>
+                        <span class="form-text text-info small">
+                            <em class="text-info">
+                                Excerpt should be less than 500 characters
+                            </em>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Featured Image</label>
+                        <div class="d-flex">
+                            <img id ="imagePreview" class="img-responsive" src="img/posts/{{post.image || ''}}" width="90%" height="auto" alt="">
+                        </div>
+                        <input class="my-1" type="file" name="image" id="image" accept="image/*">
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button type="submit" id="create-btn" name="create" value="create" class="btn btn-sm btn-primary">Publish</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group" id="post-content">
-        <label for="content"> Post Content</label>
-        <textarea id="summernote" class="form-control form-control-sm p-2 mt-1" cols="100%" rows="25%"
-         name="content" spellcheck ></textarea>
-    </div>
-    <div class="form-group">
-        <span>Excerpt <br><em class="text-info">Excerpt should be less than 500 characters</em></span>
-        <textarea class="form-control form-control-sm" name="excerpt" 
-            id="excerpt" rows="8" placeholder="Excerpt" maxlength="500" >
-        </textarea>
-    </div>
-    <div class="form-group">
-        <span>Featured Image</span><br>
-        <img id ="imgPreview" class="img-responsive" src="" width="350px" height="450px" alt="">
-        <input class="my-1" type="file" name="image" id="image" 
-            onchange="document.getElementById('imgPreview').src = window.URL.createObjectURL(this.files[0])"> </input>
-    </div>
-</form>
-@endsection
-         
-@section("aside")
-<div id="post-preview">
-    <h3 class="text-center text-muted" >Post Preview</h3>
-    <div id="post-image">
-        <img src="" class="img-responsive" width="100%">
-        <h3 class="post-title text-uppercase">POST TITLE</h3>
-    </div>
-    <div id="post-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
 </div>
 @endsection
+         
 
 @section("scripts")
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
 <script>
-  $('#summernote').summernote({
+  $('#content').summernote({
     placeholder: 'Post Content',
     tabsize: 2
   });

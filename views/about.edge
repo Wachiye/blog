@@ -2,13 +2,188 @@
 
 @section("content")
 <div class="row">
-    <div class="col-4">
-        <div class="nav flext-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="verticle">
-            
-        </div>
+    <div class="col-sm-12 d-flex">
+        <h2 class="text-muted">About {{info.site.basic.title}}</h2>
     </div>
-    <div class="col-8">
-        
+</div>
+<div class="row">
+    <!-- navigation -->
+    <div class="d-none d-sm-block col-sm-4" >
+        <ul class="list-unstyled" id="navigation">
+            <li>
+                <h4>Quick Links</h4>
+            </li>
+            <li>
+                <a href="#who-we-are">Who we are</a>
+            </li>
+            <li>
+                <a href="#what-we-do">What we do</a>
+            </li>
+            <li>
+                <a href="#our-mission">Our Mission</a>
+            </li>
+            <li>
+                <a href="#our-team">Our Team</a>
+            </li>
+            <li>
+                <a href="#contact-us">Contact Us</a>
+            </li>
+            <li>
+                <a href="#testimonials">From Our Clients</a>
+            </li>
+        </ul>
+    </div>
+    <!-- content area -->
+    <div class="col-sm-8">
+        <div class="row">
+            <!-- who we are -->
+            <div id="who-we-are" class="col-sm-12">
+                <h4>Who we are</h4>
+                <p>
+                    {{info.site.basic.description}}
+                </p>
+            </div>
+            <!-- what we do -->
+            <div id="what-we-do" class="col-sm-12">
+
+                <h3>What we do</h3>
+                <p class="lead">
+                    {{info.site.basic.services_description}}
+                </p>
+                <div class="row services ">
+                    @each(service in info.services)
+                    @if(service.level == 'important')
+                    <div class="col-sm-12 col-md-6 text-center mb-1 " id="service">
+                        <div class="card bg-transparent shadow border-secondary h-100">
+                            <div class="card-img-top d-flex pt-1">
+                                <img src="img/{{service.image}}" class="img-responsive" width="100%" height="200px">
+                            </div>
+                            <div class="card-body">
+                               
+                                <h5>{{service.name}}</h5>
+                                <p>
+                                    {{service.description}}
+                                </p> 
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    @endeach
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 d-flex">
+                        <button class="call-btn" onclick="$('#other').toggleClass('d-none'); $(this).toggleClass('d-none');">More</button>
+                    </div>
+                </div>
+                <div class="row services d-none" id="other">
+                    @each(service in info.services)
+                    @if(service.level != 'important')
+                    <div class="col-sm-12 col-md-6 text-center" id="service">
+                        <img src="img/{{service.image}}" class="img-responsive" width="100" height="100">
+                        <h5>{{service.name}}</h5>
+                        <p>
+                            {{service.description}}
+                        </p>
+                    </div>
+                    @endif
+                    @endeach
+                </div>
+            </div>
+            <!-- our mission -->
+            <div id="our-mission" class="col-sm-12">
+                <h4>Our Mission</h4>
+                <p>
+                    {{info.site.basic.mission}}
+                </p>
+            </div>
+            <!-- our team -->
+            <div id="our-team" class="col-sm-12">
+                <h4>Our Team</h4>
+                <p>
+                    {{info.site.basic.teams_description}}
+                </p>
+                <div class="row">
+                    @each(member in info.teams_members)
+                    <div class="col-sm-12 col-md-6 text-center mb-1">
+                        <div class="card bg-transparent border-none h-100">
+                             <img src="img/users/{{member.image}}" class="card-img-top">
+                             <div class="card-body">
+                                <h4 class="card-title">{{member.fullname}}</h4>
+                                <h6 class="card-subtitle">{{member.specialization}}</h6>
+                                <ul class="list-unstyled small">
+                                    <li>
+                                        <a href="tel:{{member.phone}}">
+                                            <i class="fa fa-phone"></i>
+                                            {{member.phone}}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="mailto:{{member.email}}">
+                                            <i class="fa fa-envelope"></i>
+                                            {{member.email}}
+                                        </a>
+                                    </li>
+                                </ul>
+                                <article class="card-text">
+                                    <p>
+                                        <em>
+                                            {{member.bio || ''}}
+                                        </em>
+                                    </p>
+                                </article>
+                             </div>
+                        </div>
+                    </div>
+                    @endeach
+                </div>
+                <div class="text-center">
+                    <a href="/members" class="call-link">Full Team</a>
+                </div>
+            </div>
+            <!-- contact-us -->
+            <div id="contact-us" class="col-sm-12 mt-1">
+                <h4 class="text-body">Our Contacts</h4>
+                <h6 class="text-muted">Give us a call or sent as an email for any inquiries</h6>
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <i class="fa fa-phone"></i>
+                        <a href="tel:{{info.site.contacts.phone}}">{{info.site.contacts.phone}}</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <i class="fa fa-envelope"></i>
+                        <a href="maitto:{{info.site.contacts.phone}}">{{info.site.contacts.email}}</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- testimonials -->
+            <div id="testimonials" class="col-sm-12">
+                <h4>Testimonials from our clients</h4>
+                <div class="testimonial">
+                    <img src="img/person.png" class="img-circle img-responsive" width="35" height="35">
+                    <div class="body">
+                        <h5>{{testimony.name || 'Anonymous'}}</h5>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <i class="fa fa-phone"></i>
+                                <a href="tel:{{testimony.phone}}">{{testimony.phone}}</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <i class="fa fa-envelope"></i>
+                                <a href="maitto:{{testimony.email}}">{{testimony.email}}</a>
+                            </li>
+                        </ul>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
